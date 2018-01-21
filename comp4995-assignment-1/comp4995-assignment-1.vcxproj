@@ -19,14 +19,16 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BitmapGameObject.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameWindow.cpp" />
+    <ClCompile Include="IGameObject2D.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BitmapGameObject.h" />
     <ClInclude Include="Game.h" />
-    <ClInclude Include="GameObject2D.h" />
+    <ClInclude Include="IGameObject2D.h" />
     <ClInclude Include="GameWindow.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

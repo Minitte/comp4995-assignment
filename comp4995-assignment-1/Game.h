@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vector>
-#include "GameObject2D.h"
+#include "IGameObject2D.h"
 #include "GameWindow.h"
 
 namespace GameCore {
@@ -18,6 +18,6 @@ namespace GameCore {
 
 	private:
 		GameWindow* mWindow;
-		std::vector<GameObject2D*>* mGO2D;
+		std::vector<IGameObject2D*>* mGO2D;
 	};
 }

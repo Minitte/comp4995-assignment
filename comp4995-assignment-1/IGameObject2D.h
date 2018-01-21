@@ -5,11 +5,11 @@
 
 namespace GameCore {
 
-	class GameObject2D {
+	class IGameObject2D {
 
 	public:
 
-		virtual ~GameObject2D() = 0;
+		virtual ~IGameObject2D();
 
 		virtual void Draw(LPDIRECT3DDEVICE9 pDevice, LPDIRECT3DSURFACE9 pSurface) = 0;
 	};

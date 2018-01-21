@@ -5,7 +5,7 @@ namespace GameCore {
 	GameCore::Game::Game(GameWindow* pWindow)
 		: mWindow(pWindow)
 	{
-		mGO2D = new std::vector<GameObject2D*>();
+		mGO2D = new std::vector<IGameObject2D*>();
 	}
 
 	int Game::GameLoop()

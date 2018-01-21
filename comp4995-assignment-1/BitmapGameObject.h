@@ -1,8 +1,8 @@
 #pragma once
 
-#include "GameObject2D.h";
+#include "IGameObject2D.h"
 
-class BitmapGameObject : public GameCore::GameObject2D {
+class BitmapGameObject : public GameCore::IGameObject2D {
 
 public:
 
@@ -10,10 +10,12 @@ public:
 
 	~BitmapGameObject();
 
-	void Draw(LPDIRECT3DDEVICE9 pDevice, LPDIRECT3DSURFACE9 pSurface);
+	HRESULT Draw(LPDIRECT3DDEVICE9 pDevice, LPDIRECT3DSURFACE9* ppSurface);
 
 private:
 
+	const char* mPath;
 	HBITMAP mHBitmap;
+	BITMAP mBitmap;
 
 };
