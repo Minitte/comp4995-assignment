@@ -6,7 +6,7 @@ class BitmapGameObject : public GameCore::IGameObject2D {
 
 public:
 
-	BitmapGameObject(const char* bitmapPath);
+	BitmapGameObject(char* bitmapPath);
 
 	~BitmapGameObject();
 
@@ -14,7 +14,7 @@ public:
 
 private:
 
-	const char* mPath;
+	char* mPath;
 	HBITMAP mHBitmap;
 	BITMAP mBitmap;
 
