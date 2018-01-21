@@ -1,6 +1,8 @@
-#include "GameWindow.h";
+
+#include "GameWindow.h"
 
 namespace GameCore {
+
 	GameWindow::GameWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pstrCmdLine, int iCmdShow)
 		: mPD3D(nullptr)
 		, mPDevice(nullptr)
@@ -34,7 +36,7 @@ namespace GameCore {
 		//		//GameLoop();
 		//	}
 		//}
-		
+
 		result = S_OK;
 	}
 
@@ -46,14 +48,14 @@ namespace GameCore {
 		wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
 		wc.cbClsExtra = 0;
 		wc.cbWndExtra = 0;
-		wc.lpfnWndProc = GameWindow::WndProc;
+		wc.lpfnWndProc = (GameWindow::WndProc);
 		wc.hInstance = hInstance;
 		wc.hbrBackground = (HBRUSH)GetStockObject(DKGRAY_BRUSH);
 		wc.hIcon = LoadIcon(NULL, IDI_APPLICATION);
 		wc.hIconSm = LoadIcon(NULL, IDI_HAND);
 		wc.hCursor = LoadCursor(NULL, IDC_CROSS);
 		wc.lpszMenuName = NULL;
-		wc.lpszClassName = strAppName;
+		wc.lpszClassName = TEXT("test-game");
 
 		RegisterClassEx(&wc);
 	}
@@ -85,7 +87,8 @@ namespace GameCore {
 
 		va_start(pArgList, szFormat);
 
-		_vsntprintf(szBuffer, sizeof(szBuffer) / sizeof(char), szFormat, pArgList);
+		//_vsntprintf(szBuffer, sizeof(szBuffer) / sizeof(char), szFormat, pArgList);
+		_vsntprintf_s(szBuffer, sizeof(szBuffer) / sizeof(char), szFormat, pArgList);
 
 		va_end(pArgList);
 
@@ -106,9 +109,14 @@ namespace GameCore {
 		return S_OK;
 	}
 
-	long GameWindow::WndProc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
+	LPDIRECT3DDEVICE9 GameWindow::GetDevice()
 	{
-		return DefWindowProc(hWnd, uMessage, wParam, lParam);
+		return mPDevice;
+	}
+
+	LRESULT CALLBACK GameWindow::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+	{
+		return DefWindowProc(hwnd, msg, wParam, lParam);
 	}
 
 	int GameWindow::InitDirect3DDevice(HWND hWndTarget, int Width, int Height, BOOL bWindowed, D3DFORMAT FullScreenFormat, LPDIRECT3D9 pD3D, LPDIRECT3DDEVICE9* ppDevice) {
@@ -156,8 +164,8 @@ namespace GameCore {
 	void GameWindow::IniWindow(HINSTANCE hInstance)
 	{
 		mHandle = CreateWindowEx(NULL,
-			strAppName,
-			strAppName,
+			TEXT("test-game"),
+			TEXT("test-game"),
 			WS_OVERLAPPEDWINDOW,
 			CW_USEDEFAULT,
 			CW_USEDEFAULT,
