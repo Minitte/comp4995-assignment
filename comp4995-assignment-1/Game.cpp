@@ -48,6 +48,12 @@ namespace GameCore {
 			mWindow->SetError("could not load bitmap surface");
 		}
 
+		result = D3DXLoadSurfaceFromSurface(pBackSurf, NULL, NULL, pSurface, NULL, NULL, D3DX_FILTER_TRIANGLE, 0);
+		if (FAILED(result)) {
+			mWindow->SetError("did not copy surface");
+		}
+
+
 		pSurface->Release();
 		pSurface = 0;
 
