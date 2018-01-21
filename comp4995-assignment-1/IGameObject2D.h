@@ -11,7 +11,7 @@ namespace GameCore {
 
 		virtual ~IGameObject2D();
 
-		virtual void Draw(LPDIRECT3DDEVICE9 pDevice, LPDIRECT3DSURFACE9 pSurface) = 0;
+		virtual HRESULT Draw(LPDIRECT3DDEVICE9 pDevice, LPDIRECT3DSURFACE9* ppSurface) = 0;
 	};
 
 }

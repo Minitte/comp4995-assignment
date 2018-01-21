@@ -1,11 +1,29 @@
 
 #include <iostream>
+#include <Windows.h>
+#include "GameWindow.h"
+#include "Game.h"
 
 
-int main() {
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pstrCmdLine, int iCmdShow) {
 
-	std::cout << "Hello world" << std::endl;
+	MSG msg;
+
+	GameCore::GameWindow* window = new GameCore::GameWindow(hInstance, hPrevInstance, pstrCmdLine, iCmdShow);
+
+	GameCore::Game* game = new GameCore::Game(window);
 
 
-	return 0;
+	while (TRUE) {
+		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
+			if (msg.message == WM_QUIT)
+				break;
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
+		}
+		else {
+			game->GameLoop();
+		}
+	}
+
 }

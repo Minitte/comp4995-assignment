@@ -27,7 +27,7 @@ HRESULT BitmapGameObject::Draw(LPDIRECT3DDEVICE9 pDevice, LPDIRECT3DSURFACE9* pp
 	}
 
 	//load bitmap onto surface
-	result = D3DXLoadSurfaceFromFile(*ppSurface, NULL, NULL, mPath, NULL, D3DX_DEFAULT, 0, NULL);
+	result = D3DXLoadSurfaceFromFileA(*ppSurface, NULL, NULL, mPath, NULL, D3DX_DEFAULT, 0, NULL);
 
 	if (FAILED(result)) {
 		return E_FAIL;

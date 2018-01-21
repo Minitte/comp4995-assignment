@@ -6,26 +6,28 @@ namespace GameCore {
 		: mWindow(pWindow)
 	{
 		mGO2D = new std::vector<IGameObject2D*>();
+		mBitmapBG = new BitmapGameObject("baboon.bmp");
 	}
 
 	int Game::GameLoop()
 	{
 		Render();
 
-		if (GetAsyncKeyState(VK_ESCAPE))
+		if (GetAsyncKeyState(VK_ESCAPE)) {
 			PostQuitMessage(0);
+		}
 
 		return S_OK;
 	}
 
-	int Game::Render() 
+	int Game::Render()
 	{
 		HRESULT result;
 		LPDIRECT3DSURFACE9 pBackSurf = 0;
 		LPDIRECT3DSURFACE9 pSurface = 0;
 		LPDIRECT3DDEVICE9 pDevice = mWindow->GetDevice();
 
-		if (pDevice == nullptr) 
+		if (pDevice == nullptr)
 		{
 			mWindow->SetError("Cannot render because there is no device");
 			return E_FAIL;
@@ -40,10 +42,27 @@ namespace GameCore {
 			mWindow->SetError("Couldn't get backbuffer");
 		}
 
-		for (int i = 0; i < mGO2D->size(); i++) 
+		// set the bitmap on surface
+		result = mBitmapBG->Draw(pDevice, &pSurface);
+		if (FAILED(result)) {
+			mWindow->SetError("could not load bitmap surface");
+		}
+
+		pSurface->Release();
+		pSurface = 0;
+
+		pBackSurf->Release();//release lock
+
+		pBackSurf = 0;
+
+		pDevice->Present(NULL, NULL, NULL, NULL);//swap over buffer to primary surface
+
+		/*for (int i = 0; i < mGO2D->size(); i++)
 		{
 			(*mGO2D)[i]->Draw(pDevice, pSurface);
-		}
+		}*/
+
+
 
 		return S_OK;
 	}
@@ -51,7 +70,7 @@ namespace GameCore {
 	void Game::DisposeGameObjects()
 	{
 		mGO2D->clear();
-		
+
 		delete mGO2D;
 
 		// and other stuff

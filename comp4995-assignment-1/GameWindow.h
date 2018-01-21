@@ -16,10 +16,6 @@ namespace GameCore {
 
 		GameWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pstrCmdLine, int iCmdShow);
 
-		void RegisterWindow(HINSTANCE hInstance);
-
-		HRESULT IniGame();
-
 		void SetError(char* szFormat, ...);
 
 		HRESULT CloseGame();
@@ -33,8 +29,12 @@ namespace GameCore {
 		LPDIRECT3DDEVICE9 mPDevice; // graphics device
 
 		static LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-		int InitDirect3DDevice(HWND hWndTarget, int Width, int Height, BOOL bWindowed, D3DFORMAT FullScreenFormat, LPDIRECT3D9 pD3D, LPDIRECT3DDEVICE9* ppDevice);
+		
+		// window and device setup
+		void RegisterWindow(HINSTANCE hInstance);
 		void IniWindow(HINSTANCE hInstance);
+		HRESULT IniGame();
+		int InitDirect3DDevice(HWND hWndTarget, int Width, int Height, BOOL bWindowed, D3DFORMAT FullScreenFormat, LPDIRECT3D9 pD3D, LPDIRECT3DDEVICE9* ppDevice);
 	};
 
 }

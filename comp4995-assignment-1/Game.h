@@ -2,6 +2,7 @@
 
 #include <vector>
 #include "IGameObject2D.h"
+#include "BitmapGameObject.h"
 #include "GameWindow.h"
 
 namespace GameCore {
@@ -19,5 +20,6 @@ namespace GameCore {
 	private:
 		GameWindow* mWindow;
 		std::vector<IGameObject2D*>* mGO2D;
+		BitmapGameObject* mBitmapBG;
 	};
 }
