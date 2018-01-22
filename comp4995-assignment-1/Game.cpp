@@ -4,9 +4,17 @@ namespace GameCore {
 
 	GameCore::Game::Game(GameWindow* pWindow)
 		: mWindow(pWindow)
+		, mFrames(0)
 	{
 		mGO2D = new std::vector<IGameObject2D*>();
 		mBitmapBG = new BitmapGameObject("baboon.bmp");
+
+		mFPSText = "0";
+
+		// create font
+		mFont = 0;
+		D3DXCreateFont(pWindow->GetDevice(), 40, 0, FW_NORMAL, 1, false, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, FF_DONTCARE, "Arial", &mFont);
+		SetRect(&mFpsRect, 0, 0, 100, 100);
 	}
 
 	int Game::GameLoop()
@@ -25,7 +33,13 @@ namespace GameCore {
 		HRESULT result;
 		LPDIRECT3DSURFACE9 pBackSurf = 0;
 		LPDIRECT3DSURFACE9 pSurface = 0;
-		LPDIRECT3DDEVICE9 pDevice = mWindow->GetDevice();
+		LPDIRECT3DDEVICE9 pDevice;
+		LARGE_INTEGER startTime, endTime, freq, frameTime;
+
+		QueryPerformanceFrequency(&freq);
+		QueryPerformanceCounter(&startTime);
+
+		pDevice = mWindow->GetDevice();
 
 		if (pDevice == nullptr)
 		{
@@ -53,12 +67,13 @@ namespace GameCore {
 			mWindow->SetError("did not copy surface");
 		}
 
+		// draw fps
+		mFont->DrawTextA(NULL, mFPSText, -1, &mFpsRect, DT_LEFT, D3DCOLOR_XRGB(255, 255, 0));
 
 		pSurface->Release();
 		pSurface = 0;
 
 		pBackSurf->Release();//release lock
-
 		pBackSurf = 0;
 
 		pDevice->Present(NULL, NULL, NULL, NULL);//swap over buffer to primary surface
@@ -68,7 +83,20 @@ namespace GameCore {
 			(*mGO2D)[i]->Draw(pDevice, pSurface);
 		}*/
 
+		QueryPerformanceCounter(&endTime);
+		frameTime.QuadPart = endTime.QuadPart - startTime.QuadPart;
 
+		frameTime.QuadPart *= 1000;
+		frameTime.QuadPart /= freq.QuadPart;
+
+		mTime.QuadPart += frameTime.QuadPart;
+		mFrames++;
+
+		if (mTime.QuadPart >= 1000) {
+			mFPSText = std::to_string(mFrames).c_str();
+			mFrames = 0;
+			mTime.QuadPart = 0;
+		}
 
 		return S_OK;
 	}

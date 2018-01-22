@@ -70,7 +70,7 @@ namespace GameCore {
 			return E_FAIL;
 		}
 
-		r = InitDirect3DDevice(mHandle, 1280, 720, FALSE, D3DFMT_X8R8G8B8, mPD3D, &mPDevice);
+		r = InitDirect3DDevice(mHandle, 1280, 720, TRUE, D3DFMT_X8R8G8B8, mPD3D, &mPDevice);
 		if (FAILED(r)) {//FAILED is a macro that returns false if return value is a failure - safer than using value itself
 			SetError("Initialization of the device failed");
 			return E_FAIL;
