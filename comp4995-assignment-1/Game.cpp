@@ -13,8 +13,8 @@ namespace GameCore {
 
 		// create font
 		mFont = 0;
-		D3DXCreateFont(pWindow->GetDevice(), 40, 0, FW_NORMAL, 1, false, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, FF_DONTCARE, "Arial", &mFont);
-		SetRect(&mFpsRect, 0, 0, 100, 100);
+		D3DXCreateFont(pWindow->GetDevice(), 40, 40, FW_NORMAL, 1, false, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, FF_DONTCARE, "Arial", &mFont);
+		SetRect(&mFpsRect, 1, 1, 100, 100);
 	}
 
 	int Game::GameLoop()
@@ -36,8 +36,8 @@ namespace GameCore {
 		LPDIRECT3DDEVICE9 pDevice;
 		LARGE_INTEGER startTime, endTime, freq, frameTime;
 
-		QueryPerformanceFrequency(&freq);
-		QueryPerformanceCounter(&startTime);
+		//QueryPerformanceFrequency(&freq);
+		//QueryPerformanceCounter(&startTime);
 
 		pDevice = mWindow->GetDevice();
 
@@ -62,13 +62,11 @@ namespace GameCore {
 			mWindow->SetError("could not load bitmap surface");
 		}
 
+		// copy to surface
 		result = D3DXLoadSurfaceFromSurface(pBackSurf, NULL, NULL, pSurface, NULL, NULL, D3DX_FILTER_TRIANGLE, 0);
 		if (FAILED(result)) {
 			mWindow->SetError("did not copy surface");
 		}
-
-		// draw fps
-		mFont->DrawTextA(NULL, mFPSText, -1, &mFpsRect, DT_LEFT, D3DCOLOR_XRGB(255, 255, 0));
 
 		pSurface->Release();
 		pSurface = 0;
@@ -76,27 +74,28 @@ namespace GameCore {
 		pBackSurf->Release();//release lock
 		pBackSurf = 0;
 
+		// draw fps
+		RECT rect;
+		SetRect(&rect, 0, 0, 100, 100);
+		mFont->DrawTextA(NULL, "Hello World", -1, &rect, DT_LEFT, D3DCOLOR_XRGB(255, 255, 0));
+
 		pDevice->Present(NULL, NULL, NULL, NULL);//swap over buffer to primary surface
 
-		/*for (int i = 0; i < mGO2D->size(); i++)
-		{
-			(*mGO2D)[i]->Draw(pDevice, pSurface);
-		}*/
+		//QueryPerformanceCounter(&endTime);
+		//frameTime.QuadPart = endTime.QuadPart - startTime.QuadPart;
 
-		QueryPerformanceCounter(&endTime);
-		frameTime.QuadPart = endTime.QuadPart - startTime.QuadPart;
+		//frameTime.QuadPart *= 1000;
+		//frameTime.QuadPart /= freq.QuadPart;
 
-		frameTime.QuadPart *= 1000;
-		frameTime.QuadPart /= freq.QuadPart;
+		//mTime.QuadPart += frameTime.QuadPart;
+		//mFrames++;
 
-		mTime.QuadPart += frameTime.QuadPart;
-		mFrames++;
-
-		if (mTime.QuadPart >= 1000) {
-			mFPSText = std::to_string(mFrames).c_str();
-			mFrames = 0;
-			mTime.QuadPart = 0;
-		}
+		//if (mTime.QuadPart >= 1000) {
+		//	mFPSText = std::to_string(mFrames).c_str();
+		//	mFrames = 0;
+		//	mTime.QuadPart -= 0;
+		//	//std::cout << mFPSText << std::endl;
+		//}
 
 		return S_OK;
 	}
