@@ -24,12 +24,15 @@
     <ClCompile Include="GameWindow.cpp" />
     <ClCompile Include="IGameObject2D.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="BitmapSurface.cpp" />
+    <ClCompile Include="TextGameObject2D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BitmapGameObject.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="IGameObject2D.h" />
     <ClInclude Include="GameWindow.h" />
+    <ClInclude Include="BitmapSurface.h" />
     <ClInclude Include="TextGameObject2D.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

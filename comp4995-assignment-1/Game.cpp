@@ -6,25 +6,47 @@ namespace GameCore {
 		: mWindow(pWindow)
 		, mFrames(0)
 	{
-		mGO2D = new std::vector<IGameObject2D*>();
-		mBitmapBG = new BitmapGameObject("baboon.bmp");
+		//mGO2D = new std::vector<IGameObject2D*>();
+		mBitmapSurface = new BitmapSurface("baboon.bmp");
+		mBitmapSurface->InitSurface(pWindow->GetDevice());
 
-		mFPSText = "?";
-
-		// create font
-		mFont = 0;
-		D3DXCreateFont(pWindow->GetDevice(), 40, 16, FW_NORMAL, 1, false, DEFAULT_CHARSET, 
-			OUT_DEFAULT_PRECIS, ANTIALIASED_QUALITY, DEFAULT_PITCH | FF_DONTCARE, "Arial", &mFont);
-		
-		SetRect(&mFpsRect, 100, 100, 400, 400);
+		mFpsText = new TextGameObject2D("?", 0, 0, 32, 16, pWindow->GetDevice());
 	}
+
+	Game::~Game()
+	{
+		//mGO2D->clear();
+		delete mBitmapSurface;
+	}
+
 
 	int Game::GameLoop()
 	{
+
+		LARGE_INTEGER startTime, endTime, freq, frameTime;
+
+		QueryPerformanceFrequency(&freq);
+		QueryPerformanceCounter(&startTime);
+
 		Render();
 
 		if (GetAsyncKeyState(VK_ESCAPE)) {
 			PostQuitMessage(0);
+		}
+
+		QueryPerformanceCounter(&endTime);
+		frameTime.QuadPart = endTime.QuadPart - startTime.QuadPart;
+
+		frameTime.QuadPart *= 1000;
+		frameTime.QuadPart /= freq.QuadPart;
+
+		mTime.QuadPart += frameTime.QuadPart;
+		mFrames++;
+
+		if (mTime.QuadPart >= 1000) {
+			mFpsText->SetText(mFrames);
+			mFrames = 0;
+			mTime.QuadPart -= 1000;
 		}
 
 		return S_OK;
@@ -34,12 +56,7 @@ namespace GameCore {
 	{
 		HRESULT result;
 		LPDIRECT3DSURFACE9 pBackSurf = 0;
-		LPDIRECT3DSURFACE9 pSurface = 0;
 		LPDIRECT3DDEVICE9 pDevice;
-		LARGE_INTEGER startTime, endTime, freq, frameTime;
-
-		QueryPerformanceFrequency(&freq);
-		QueryPerformanceCounter(&startTime);
 
 		pDevice = mWindow->GetDevice();
 
@@ -58,57 +75,24 @@ namespace GameCore {
 			mWindow->SetError("Couldn't get backbuffer");
 		}
 
-		// set the bitmap on surface
-		result = mBitmapBG->Draw(pDevice, &pSurface);
-		if (FAILED(result)) {
-			mWindow->SetError("could not load bitmap surface");
-		}
-
 		// copy to surface
-		result = D3DXLoadSurfaceFromSurface(pBackSurf, NULL, NULL, pSurface, NULL, NULL, D3DX_FILTER_TRIANGLE, 0);
+		//result = D3DXLoadSurfaceFromSurface(pBackSurf, NULL, NULL, *(mBitmapSurface->getSurface()), NULL, NULL, D3DX_FILTER_TRIANGLE, 0);
+		result = pDevice->UpdateSurface(mBitmapSurface->getSurface(), NULL, pBackSurf, NULL);
 		if (FAILED(result)) {
 			mWindow->SetError("did not copy surface");
 		}
-
-		pSurface->Release();
-		pSurface = 0;
 
 		pBackSurf->Release();//release lock
 		pBackSurf = 0;
 
 		// draw fps
 		pDevice->BeginScene();
-		mFont->DrawTextA(NULL, std::to_string(mFPS).c_str(), -1, &mFpsRect, DT_CENTER, D3DCOLOR_XRGB(255, 255, 0));
+		mFpsText->Draw();
 		pDevice->EndScene();
 
-		pDevice->Present(NULL, NULL, NULL, NULL);//swap over buffer to primary surface
-
-
-		QueryPerformanceCounter(&endTime);
-		frameTime.QuadPart = endTime.QuadPart - startTime.QuadPart;
-
-		frameTime.QuadPart *= 1000;
-		frameTime.QuadPart /= freq.QuadPart;
-
-		mTime.QuadPart += frameTime.QuadPart;
-		mFrames++;
-
-		if (mTime.QuadPart >= 1000) {
-			mFPS = mFrames;
-			mFrames = 0;
-			mTime.QuadPart -= 1000;
-		}
+		//swap over buffer to primary surface
+		pDevice->Present(NULL, NULL, NULL, NULL); 
 
 		return S_OK;
 	}
-
-	void Game::DisposeGameObjects()
-	{
-		mGO2D->clear();
-
-		delete mGO2D;
-
-		// and other stuff
-	}
-
 }

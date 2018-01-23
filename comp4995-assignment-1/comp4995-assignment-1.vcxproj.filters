@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Game Objects">
+      <UniqueIdentifier>{84bad1bc-92d6-4864-b0b1-a6e28b9e64c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game Objects">
+      <UniqueIdentifier>{b1b09526-58fd-4110-b91b-3770629fb610}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -25,10 +31,16 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BitmapGameObject.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Game Objects</Filter>
     </ClCompile>
     <ClCompile Include="IGameObject2D.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Game Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="TextGameObject2D.cpp">
+      <Filter>Source Files\Game Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="BitmapSurface.cpp">
+      <Filter>Source Files\Game Objects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -38,14 +50,17 @@
     <ClInclude Include="Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BitmapGameObject.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="TextGameObject2D.h">
+      <Filter>Header Files\Game Objects</Filter>
     </ClInclude>
     <ClInclude Include="IGameObject2D.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Game Objects</Filter>
     </ClInclude>
-    <ClInclude Include="TextGameObject2D.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="BitmapGameObject.h">
+      <Filter>Header Files\Game Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="BitmapSurface.h">
+      <Filter>Header Files\Game Objects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

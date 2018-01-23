@@ -1,34 +1,30 @@
 #pragma once
 
 #include <vector>
-#include <string>
 #include "IGameObject2D.h"
-#include "BitmapGameObject.h"
+#include "BitmapSurface.h"
 #include "GameWindow.h"
+#include "TextGameObject2D.h"
 
 namespace GameCore {
 	class Game {
 	public:
 
 		Game(GameWindow* pWindow);
+		~Game();
 
 		int GameLoop();
-
 		int Render();
-
-		void DisposeGameObjects();
 
 	private:
 		GameWindow* mWindow;
-		std::vector<IGameObject2D*>* mGO2D;
-		BitmapGameObject* mBitmapBG;
+		//std::vector<IGameObject2D*>* mGO2D;
+		BitmapSurface* mBitmapSurface;
 
 		// fps counter
-		ID3DXFont* mFont;
-		RECT mFpsRect;
+		TextGameObject2D* mFpsText;
 		LARGE_INTEGER mTime;
 		int mFrames, mFPS;
-		const char* mFPSText;
 
 	};
 }
