@@ -27,7 +27,7 @@ namespace GameCore {
 		ID3DXFont* mFont;
 		RECT mFpsRect;
 		LARGE_INTEGER mTime;
-		int mFrames;
+		int mFrames, mFPS;
 		const char* mFPSText;
 
 	};

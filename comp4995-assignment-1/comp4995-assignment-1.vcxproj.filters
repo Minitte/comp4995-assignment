@@ -44,5 +44,8 @@
     <ClInclude Include="IGameObject2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TextGameObject2D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

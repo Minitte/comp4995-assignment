@@ -9,12 +9,14 @@ namespace GameCore {
 		mGO2D = new std::vector<IGameObject2D*>();
 		mBitmapBG = new BitmapGameObject("baboon.bmp");
 
-		mFPSText = "0";
+		mFPSText = "?";
 
 		// create font
 		mFont = 0;
-		D3DXCreateFont(pWindow->GetDevice(), 40, 40, FW_NORMAL, 1, false, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, FF_DONTCARE, "Arial", &mFont);
-		SetRect(&mFpsRect, 1, 1, 100, 100);
+		D3DXCreateFont(pWindow->GetDevice(), 40, 16, FW_NORMAL, 1, false, DEFAULT_CHARSET, 
+			OUT_DEFAULT_PRECIS, ANTIALIASED_QUALITY, DEFAULT_PITCH | FF_DONTCARE, "Arial", &mFont);
+		
+		SetRect(&mFpsRect, 100, 100, 400, 400);
 	}
 
 	int Game::GameLoop()
@@ -36,8 +38,8 @@ namespace GameCore {
 		LPDIRECT3DDEVICE9 pDevice;
 		LARGE_INTEGER startTime, endTime, freq, frameTime;
 
-		//QueryPerformanceFrequency(&freq);
-		//QueryPerformanceCounter(&startTime);
+		QueryPerformanceFrequency(&freq);
+		QueryPerformanceCounter(&startTime);
 
 		pDevice = mWindow->GetDevice();
 
@@ -75,27 +77,27 @@ namespace GameCore {
 		pBackSurf = 0;
 
 		// draw fps
-		RECT rect;
-		SetRect(&rect, 0, 0, 100, 100);
-		mFont->DrawTextA(NULL, "Hello World", -1, &rect, DT_LEFT, D3DCOLOR_XRGB(255, 255, 0));
+		pDevice->BeginScene();
+		mFont->DrawTextA(NULL, std::to_string(mFPS).c_str(), -1, &mFpsRect, DT_CENTER, D3DCOLOR_XRGB(255, 255, 0));
+		pDevice->EndScene();
 
 		pDevice->Present(NULL, NULL, NULL, NULL);//swap over buffer to primary surface
 
-		//QueryPerformanceCounter(&endTime);
-		//frameTime.QuadPart = endTime.QuadPart - startTime.QuadPart;
 
-		//frameTime.QuadPart *= 1000;
-		//frameTime.QuadPart /= freq.QuadPart;
+		QueryPerformanceCounter(&endTime);
+		frameTime.QuadPart = endTime.QuadPart - startTime.QuadPart;
 
-		//mTime.QuadPart += frameTime.QuadPart;
-		//mFrames++;
+		frameTime.QuadPart *= 1000;
+		frameTime.QuadPart /= freq.QuadPart;
 
-		//if (mTime.QuadPart >= 1000) {
-		//	mFPSText = std::to_string(mFrames).c_str();
-		//	mFrames = 0;
-		//	mTime.QuadPart -= 0;
-		//	//std::cout << mFPSText << std::endl;
-		//}
+		mTime.QuadPart += frameTime.QuadPart;
+		mFrames++;
+
+		if (mTime.QuadPart >= 1000) {
+			mFPS = mFrames;
+			mFrames = 0;
+			mTime.QuadPart -= 1000;
+		}
 
 		return S_OK;
 	}

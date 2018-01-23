@@ -30,6 +30,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="IGameObject2D.h" />
     <ClInclude Include="GameWindow.h" />
+    <ClInclude Include="TextGameObject2D.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
