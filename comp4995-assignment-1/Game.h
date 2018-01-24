@@ -13,7 +13,10 @@ namespace GameCore {
 		Game(GameWindow* pWindow);
 		~Game();
 
+		// the game loop
 		int GameLoop();
+
+		// renders all game objects and surfaces
 		int Render();
 
 	private:

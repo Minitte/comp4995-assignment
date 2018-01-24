@@ -10,9 +10,13 @@ public:
 	TextGameObject2D(std::string text, int x, int y, int height, u_int width, LPDIRECT3DDEVICE9 pDevice);
 	~TextGameObject2D();
 
+	// draws text
 	HRESULT Draw();
-
+	
+	// sets the text
 	void SetText(std::string text);
+
+	// converts the int to text
 	void SetText(int text);
 
 private:
