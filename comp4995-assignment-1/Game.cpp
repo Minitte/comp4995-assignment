@@ -76,7 +76,7 @@ namespace GameCore {
 		}
 
 		// copy to surface
-		//result = D3DXLoadSurfaceFromSurface(pBackSurf, NULL, NULL, *(mBitmapSurface->getSurface()), NULL, NULL, D3DX_FILTER_TRIANGLE, 0);
+		//result = D3DXLoadSurfaceFromSurface(pBackSurf, NULL, NULL, mBitmapSurface->getSurface(), NULL, NULL, D3DX_FILTER_TRIANGLE, 0);
 		result = pDevice->UpdateSurface(mBitmapSurface->getSurface(), NULL, pBackSurf, NULL);
 		if (FAILED(result)) {
 			mWindow->SetError("did not copy surface");
@@ -95,4 +95,5 @@ namespace GameCore {
 
 		return S_OK;
 	}
+
 }
