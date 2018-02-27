@@ -11,15 +11,17 @@ namespace GameCore {
 	class GameWindow {
 
 	public:
-
 		HRESULT result;
 
 		GameWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pstrCmdLine, int iCmdShow);
 
+		// sets an error to be reported
 		void SetError(char* szFormat, ...);
 
+		// cleans up resources of the window
 		HRESULT CloseGame();
 
+		// returns a pointer for device
 		LPDIRECT3DDEVICE9 GetDevice();
 
 	private:
