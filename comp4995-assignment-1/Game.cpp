@@ -19,7 +19,7 @@ namespace GameCore {
 		}
 
 		// baboon
-		mBitmapSurface = new BitmapSurface("assets/best_bg.bmp");
+		mBitmapSurface = new BitmapSurface("assets/baboon.bmp");
 		mBitmapSurface->InitSurface(mPDevice);
 
 		// fps counter
@@ -29,8 +29,14 @@ namespace GameCore {
 		mGameObj = new std::vector<MeshGameObject3D*>();
 
 		MeshObject* tigerMesh = new MeshObject(mPDevice, "assets/tiger.x");
-		MeshGameObject3D* tigerObj = new MeshGameObject3D(tigerMesh);
+		MeshGameObject3D* tigerObj = new MeshGameObject3D(tigerMesh, 1, 0, 0);
+		tigerObj->Rotate(0, D3DXToRadian(120.f), 0);
 		mGameObj->push_back(tigerObj);
+
+		MeshObject* tigerMesh2 = new MeshObject(mPDevice, "assets/tiger.x");
+		MeshGameObject3D* tigerObj2 = new MeshGameObject3D(tigerMesh2, -1, 0, 0);
+		tigerObj2->Rotate(0, D3DXToRadian(-35.f), 0);
+		mGameObj->push_back(tigerObj2);
 	}
 
 	Game::~Game()
@@ -103,7 +109,7 @@ namespace GameCore {
 
 		// render 3d stuff
 		for (int i = 0; i < mGameObj->size(); i++) {
-			(*mGameObj)[i]->draw(mPDevice);
+			(*mGameObj)[i]->Draw(mPDevice);
 		}
 
 		// fps counter
