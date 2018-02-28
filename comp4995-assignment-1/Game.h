@@ -16,7 +16,10 @@ namespace GameCore {
 	class Game {
 	public:
 
+		// constructor for the game engine
 		Game(GameWindow* pWindow);
+
+		// deconstructor / disposal of resources
 		~Game();
 
 		// ini game objects
@@ -38,10 +41,10 @@ namespace GameCore {
 		int RenderSurface();
 
 	private:
+		// window and device 
 		GameWindow* mWindow;
 		LPDIRECT3DDEVICE9 mPDevice;
 		BitmapSurface* mBitmapSurface;
-
 
 		// fps counter
 		TextGameObject2D* mFpsText;
@@ -56,5 +59,8 @@ namespace GameCore {
 
 		// input lift
 		bool keyDown;
+
+		// am light toggle
+		bool mAmbientEnable;
 	};
 }

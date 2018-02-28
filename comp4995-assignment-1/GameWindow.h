@@ -13,6 +13,7 @@ namespace GameCore {
 	public:
 		HRESULT result;
 
+		// constructor for a win32 window for the game
 		GameWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pstrCmdLine, int iCmdShow);
 
 		// sets an error to be reported
@@ -26,10 +27,12 @@ namespace GameCore {
 
 	private:
 
+		// handles and pointers to certain resources
 		HWND mHandle;
 		LPDIRECT3D9 mPD3D; // COM object
 		LPDIRECT3DDEVICE9 mPDevice; // graphics device
 
+		// wnd proc
 		static LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 		
 		// window and device setup

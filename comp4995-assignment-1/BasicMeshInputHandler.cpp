@@ -58,6 +58,16 @@ void BasicMeshInputHandler::Act(int delta, MeshGameObject3D* gameObj)
 		gameObj->Rotate(-0.05f, 0, 0);
 	}
 
+	if (GetAsyncKeyState('Z'))
+	{
+		gameObj->Rotate(0, 0, 0.05f);
+	}
+
+	if (GetAsyncKeyState('X'))
+	{
+		gameObj->Rotate(0, 0, -0.05f);
+	}
+
 }
 
 void BasicMeshInputHandler::SetEnabled(bool enable)

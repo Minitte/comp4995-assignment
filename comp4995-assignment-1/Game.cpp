@@ -11,7 +11,7 @@ namespace GameCore {
 		// Turn on the zbuffer
 		mPDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
 		// Turn on ambient lighting 
-		mPDevice->SetRenderState(D3DRS_AMBIENT, 0x00333333); // ?rgb
+		mPDevice->SetRenderState(D3DRS_AMBIENT, 0x009a9a9a); // ?rgb
 		// enables lighting
 		mPDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
 
@@ -74,7 +74,7 @@ namespace GameCore {
 		light.Direction = D3DXVECTOR3(0, -1, 0);
 
 		mPDevice->SetLight(0, &light);
-		mPDevice->LightEnable(0, TRUE);
+		//mPDevice->LightEnable(0, TRUE);
 
 		colour = D3DCOLOR_RGBA(0, 255, 0, 0);
 		ZeroMemory(&light, sizeof(light));
@@ -86,7 +86,7 @@ namespace GameCore {
 		light.Position = D3DXVECTOR3(0, 0, 0);
 
 		mPDevice->SetLight(1, &light);
-		mPDevice->LightEnable(1, TRUE);
+		//mPDevice->LightEnable(1, TRUE);
 
 		colour = D3DCOLOR_RGBA(255, 200, 100, 0);
 		ZeroMemory(&light, sizeof(light));
@@ -97,7 +97,7 @@ namespace GameCore {
 		light.Direction = D3DXVECTOR3(1, 0, 0);
 
 		mPDevice->SetLight(2, &light);
-		mPDevice->LightEnable(2, TRUE);
+		//mPDevice->LightEnable(2, TRUE);
 	}
 
 
@@ -161,7 +161,45 @@ namespace GameCore {
 			(*mGameObj)[1]->SetEnableHandler(true);
 		}
 
-		if (!GetAsyncKeyState('3') && !GetAsyncKeyState('2') && !GetAsyncKeyState('1')) {
+		if (GetAsyncKeyState('0') && !keyDown)
+		{
+			keyDown = true;
+			if (!mAmbientEnable) {
+				mPDevice->SetRenderState(D3DRS_AMBIENT, 0x00000000); // ?rgb
+			}
+			else 
+			{
+				mPDevice->SetRenderState(D3DRS_AMBIENT, 0x009a9a9aa); // ?rgb
+			}
+			mAmbientEnable = !mAmbientEnable;
+		}
+
+		if (GetAsyncKeyState('9') && !keyDown)
+		{
+			keyDown = true;
+			BOOL enable;
+			mPDevice->GetLightEnable(0, &enable);
+			mPDevice->LightEnable(0, !enable);
+		}
+
+		if (GetAsyncKeyState('8') && !keyDown)
+		{
+			keyDown = true;
+			BOOL enable;
+			mPDevice->GetLightEnable(1, &enable);
+			mPDevice->LightEnable(1, !enable);
+		}
+
+		if (GetAsyncKeyState('7') && !keyDown)
+		{
+			keyDown = true;
+			BOOL enable;
+			mPDevice->GetLightEnable(2, &enable);
+			mPDevice->LightEnable(2, !enable);
+		}
+
+		if (!GetAsyncKeyState('3') && !GetAsyncKeyState('2') && !GetAsyncKeyState('1') && 
+			!GetAsyncKeyState('0') && !GetAsyncKeyState('9') && !GetAsyncKeyState('8') && !GetAsyncKeyState('7')) {
 			keyDown = false;
 		}
 
