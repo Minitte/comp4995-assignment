@@ -10,22 +10,22 @@ void BasicMeshInputHandler::Act(int delta, MeshGameObject3D* gameObj)
 
 	if (GetAsyncKeyState('W'))
 	{
-		gameObj->Translate(0, 0, -movementSpeed);
+		gameObj->Translate(0, 0, movementSpeed);
 	}
 
 	if (GetAsyncKeyState('A'))
 	{
-		gameObj->Translate(movementSpeed, 0, 0);
+		gameObj->Translate(-movementSpeed, 0, 0);
 	}
 
 	if (GetAsyncKeyState('S'))
 	{
-		gameObj->Translate(0, 0, movementSpeed);
+		gameObj->Translate(0, 0, -movementSpeed);
 	}
 
 	if (GetAsyncKeyState('D'))
 	{
-		gameObj->Translate(-movementSpeed, 0, 0);
+		gameObj->Translate(movementSpeed, 0, 0);
 	}
 
 	if (GetAsyncKeyState(VK_SPACE))
@@ -36,6 +36,26 @@ void BasicMeshInputHandler::Act(int delta, MeshGameObject3D* gameObj)
 	if (GetAsyncKeyState(VK_CONTROL))
 	{
 		gameObj->Translate(0, -movementSpeed, 0);
+	}
+
+	if (GetAsyncKeyState('Q'))
+	{
+		gameObj->Rotate(0, -0.05f, 0);
+	}
+
+	if (GetAsyncKeyState('E'))
+	{
+		gameObj->Rotate(0, 0.05f, 0);
+	}
+
+	if (GetAsyncKeyState('R'))
+	{
+		gameObj->Rotate(0.05f, 0, 0);
+	}
+
+	if (GetAsyncKeyState('F'))
+	{
+		gameObj->Rotate(-0.05f, 0, 0);
 	}
 
 }

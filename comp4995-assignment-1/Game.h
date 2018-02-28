@@ -53,5 +53,8 @@ namespace GameCore {
 
 		// camera
 		GameCamera* mCamera;
+
+		// input lift
+		bool keyDown;
 	};
 }

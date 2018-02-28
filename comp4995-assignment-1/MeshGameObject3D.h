@@ -42,9 +42,14 @@ public:
 	// sets rotation angle around z-axis
 	void SetZRotation(float angle);
 
+	// sets the input handler for this game object
 	void SetInputHandler(BasicMeshInputHandler* handler);
 
+	// sets the flag to enable or disable the input handler
 	void SetEnableHandler(bool enable);
+
+	// gets the bool value that enable or disables 
+	bool GetEnableHandler();
 
 private:
 	// Calulates the entire transform

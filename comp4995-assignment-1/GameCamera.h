@@ -18,6 +18,9 @@ public:
 	// makes the camera look at xyz position
 	void LookAt(float x, float y, float z);
 
+	// rotates the camera around the xyz axis
+	void Rotate(float x, float y, float z);
+
 	// actions and updates before rendering
 	void Act();
 
@@ -40,6 +43,9 @@ private:
 
 	// where the camera is looking at
 	float mLookX, mLookY, mLookZ;
+
+	// where the camera is looking at
+	float mYaw, mPitch, mRoll;
 
 	// the up vector of camera
 	D3DXVECTOR3 mUp;

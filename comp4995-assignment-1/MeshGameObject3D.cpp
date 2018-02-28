@@ -111,6 +111,11 @@ void MeshGameObject3D::SetEnableHandler(bool enable)
 	mEnableHandler = enable;
 }
 
+bool MeshGameObject3D::GetEnableHandler()
+{
+	return mEnableHandler;
+}
+
 void MeshGameObject3D::CalculateTransform()
 {
 	D3DXMatrixIdentity(&mTransform);

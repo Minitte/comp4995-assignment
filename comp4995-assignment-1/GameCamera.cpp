@@ -55,22 +55,22 @@ void GameCamera::Act()
 	float movementSpeed = 0.25f;
 	if (GetAsyncKeyState('W'))
 	{
-		Translate(0, 0, -movementSpeed);
+		Translate(0, 0, movementSpeed);
 	}
 
 	if (GetAsyncKeyState('A'))
 	{
-		Translate(movementSpeed, 0, 0);
+		Translate(-movementSpeed, 0, 0);
 	}
 
 	if (GetAsyncKeyState('S'))
 	{
-		Translate(0, 0, movementSpeed);
+		Translate(0, 0, -movementSpeed);
 	}
 
 	if (GetAsyncKeyState('D'))
 	{
-		Translate(-movementSpeed, 0, 0);
+		Translate(movementSpeed, 0, 0);
 	}
 
 	if (GetAsyncKeyState(VK_SPACE))
@@ -82,15 +82,47 @@ void GameCamera::Act()
 	{
 		Translate(0, -movementSpeed, 0);
 	}
+
+	if (GetAsyncKeyState('Q'))
+	{
+		mYaw += 0.04f;
+		UpdateCamera();
+	}
+
+	if (GetAsyncKeyState('E'))
+	{
+		mYaw -= 0.04f;
+		UpdateCamera();
+	}
+
+	if (GetAsyncKeyState('R'))
+	{
+		mPitch -= 0.04f;
+		UpdateCamera();
+	}
+
+	if (GetAsyncKeyState('F'))
+	{
+		mPitch += 0.04f;
+		UpdateCamera();
+	}
+
+	if (GetAsyncKeyState('Z'))
+	{
+		mRoll += 0.04f;
+		UpdateCamera();
+	}
+
+	if (GetAsyncKeyState('X'))
+	{
+		mRoll -= 0.04f;
+		UpdateCamera();
+	}
+
 }
 
 void GameCamera::UpdateCamera()
 {
-	// For our world matrix, we will just leave it as the identity
-	D3DXMATRIXA16 matWorld;
-	//D3DXMatrixRotationY(&matWorld, timeGetTime() / 1000.0f);
-	D3DXMatrixRotationY(&matWorld, 0.0f);
-	mPDevice->SetTransform(D3DTS_WORLD, &matWorld);
 
 	// Set up our view matrix. A view matrix can be defined given an eye point,
 	// a point to lookat, and a direction for which way is up. Here, we set the
@@ -99,7 +131,13 @@ void GameCamera::UpdateCamera()
 	D3DXVECTOR3 pos(mPosX, mPosY, mPosZ);
 	D3DXVECTOR3 look(mLookX, mLookY, mLookZ);
 	D3DXMATRIXA16 matView;
+	D3DXMATRIXA16 rot;
+
+	D3DXMatrixRotationYawPitchRoll(&rot, mYaw, mPitch, mRoll);
 	D3DXMatrixLookAtLH(&matView, &pos, &look, &mUp);
+
+	D3DXMatrixMultiply(&matView, &matView, &rot);
+
 	mPDevice->SetTransform(D3DTS_VIEW, &matView);
 
 	// For the projection matrix, we set up a perspective transform (which
