@@ -11,11 +11,9 @@ namespace GameCore {
 		// Turn on the zbuffer
 		mPDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
 		// Turn on ambient lighting 
-		mPDevice->SetRenderState(D3DRS_AMBIENT, 0x00555555); // ?rgb
+		mPDevice->SetRenderState(D3DRS_AMBIENT, 0x00333333); // ?rgb
 		// enables lighting
 		mPDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
-		//set vertex shading
-		mPDevice->SetFVF(D3DFVF_XYZ | D3DFVF_NORMAL); // DirectX9 version
 
 		if (mPDevice == nullptr)
 		{
@@ -51,30 +49,55 @@ namespace GameCore {
 		mGameObj = new std::vector<MeshGameObject3D*>();
 
 		MeshObject* airplaneMesh = new MeshObject(mPDevice, "assets/airplane2.x");
-		MeshGameObject3D* airplaneObj = new MeshGameObject3D(airplaneMesh, 0, 0, 0);
+		MeshGameObject3D* airplaneObj = new MeshGameObject3D(airplaneMesh, -10, 0, 0);
 		airplaneObj->Rotate(0, D3DXToRadian(-35.f), 0);
 		BasicMeshInputHandler* inputHandler = new BasicMeshInputHandler();
 		airplaneObj->SetInputHandler(inputHandler);
-		airplaneObj->SetEnableHandler(true);
 		mGameObj->push_back(airplaneObj);
 
+		MeshObject* sphereMesh = new MeshObject(mPDevice, "assets/chair.x");
+		MeshGameObject3D* sphereObj = new MeshGameObject3D(sphereMesh, 10, 0, 0);
+		BasicMeshInputHandler* inputHandler2 = new BasicMeshInputHandler();
+		sphereObj->SetInputHandler(inputHandler2);
+		mGameObj->push_back(sphereObj);
+
+		D3DXCOLOR colour = D3DCOLOR_RGBA(255, 0, 0, 0);
 		D3DLIGHT9 light;
-		ZeroMemory(&light, sizeof(D3DLIGHT9));
-		light.Type = D3DLIGHT_POINT;
-		light.Diffuse.r = 0.35f;
-		light.Diffuse.g = 0.35f;
-		light.Diffuse.b = 0.65f;
-		light.Range = 50.0f;
+		ZeroMemory(&light, sizeof(light));
 
-		D3DXVECTOR3 vec;
-		vec = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
-		D3DXVec3Normalize((D3DXVECTOR3*)&light.Position, &vec);
+		light.Type = D3DLIGHT_SPOT;
+		light.Ambient = colour * 0.4f;
+		light.Diffuse = colour;
+		light.Specular = colour * 0.4f;
+		light.Range = 5;
+		light.Position = D3DXVECTOR3(-10, 5, 0);
+		light.Direction = D3DXVECTOR3(0, -1, 0);
 
-		//attach light structure to a Direct3D Lighting index
 		mPDevice->SetLight(0, &light);
-
-		//enable light
 		mPDevice->LightEnable(0, TRUE);
+
+		colour = D3DCOLOR_RGBA(0, 255, 0, 0);
+		ZeroMemory(&light, sizeof(light));
+		light.Type = D3DLIGHT_POINT;
+		light.Ambient = colour * 0.4f;
+		light.Diffuse = colour;
+		light.Specular = colour * 0.4f;
+		light.Range = 5;
+		light.Position = D3DXVECTOR3(0, 0, 0);
+
+		mPDevice->SetLight(1, &light);
+		mPDevice->LightEnable(1, TRUE);
+
+		colour = D3DCOLOR_RGBA(255, 200, 100, 0);
+		ZeroMemory(&light, sizeof(light));
+		light.Type = D3DLIGHT_DIRECTIONAL;
+		light.Ambient = colour * 0.4f;
+		light.Diffuse = colour;
+		light.Specular = colour * 0.4f;
+		light.Direction = D3DXVECTOR3(1, 0, 0);
+
+		mPDevice->SetLight(2, &light);
+		mPDevice->LightEnable(2, TRUE);
 	}
 
 
@@ -114,6 +137,34 @@ namespace GameCore {
 			PostQuitMessage(0);
 		}
 
+		if (GetAsyncKeyState('1') && !keyDown)
+		{
+			keyDown = true;
+			mCamera->SetEnableControls(true);
+			(*mGameObj)[0]->SetEnableHandler(false);
+			(*mGameObj)[1]->SetEnableHandler(false);
+		}
+
+		if (GetAsyncKeyState('2') && !keyDown)
+		{
+			keyDown = true;
+			mCamera->SetEnableControls(false);
+			(*mGameObj)[0]->SetEnableHandler(true);
+			(*mGameObj)[1]->SetEnableHandler(false);
+		}
+
+		if (GetAsyncKeyState('3') && !keyDown)
+		{
+			keyDown = true;
+			mCamera->SetEnableControls(false);
+			(*mGameObj)[0]->SetEnableHandler(false);
+			(*mGameObj)[1]->SetEnableHandler(true);
+		}
+
+		if (!GetAsyncKeyState('3') && !GetAsyncKeyState('2') && !GetAsyncKeyState('1')) {
+			keyDown = false;
+		}
+
 		for (int i = 0; i < mGameObj->size(); i++) {
 			(*mGameObj)[i]->Act(delta);
 		}
@@ -138,8 +189,8 @@ namespace GameCore {
 		// render scene
 		mPDevice->BeginScene();
 
-		
-
+		//set vertex shading
+		mPDevice->SetFVF(D3DFVF_XYZ | D3DFVF_NORMAL); // DirectX9 version
 
 		// render 3d stuff
 		for (int i = 0; i < mGameObj->size(); i++) {
@@ -157,7 +208,7 @@ namespace GameCore {
 
 	void Game::SetupView()
 	{
-		D3DXVECTOR3 vEyePt(0.0f, 3.0f, 5.0f);
+		D3DXVECTOR3 vEyePt(0.0f, 10.0f, -30.0f);
 		D3DXVECTOR3 vLookatPt(0.0f, 0.0f, 0.0f);
 		mCamera = new GameCamera(vEyePt, vLookatPt, mPDevice);
 	}
