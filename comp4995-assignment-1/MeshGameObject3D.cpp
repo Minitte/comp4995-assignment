@@ -2,16 +2,14 @@
 
 MeshGameObject3D::MeshGameObject3D(MeshObject* pMeshObj)
 	: mPMeshObj(pMeshObj)
-	, mX(0), mY(0), mZ(0)
-	, mXAngle(0), mYAngle(0), mZAngle(0)
+	, GameObject()
 {
 	CalculateTransform();
 }
 
 MeshGameObject3D::MeshGameObject3D(MeshObject* pMeshObj, float x, float y, float z)
 	: mPMeshObj(pMeshObj)
-	, mX(x), mY(y), mZ(z)
-	, mXAngle(0), mYAngle(0), mZAngle(0)
+	, GameObject(x, y, z)
 {
 	CalculateTransform();
 }
@@ -24,7 +22,10 @@ void MeshGameObject3D::Act(int delta)
 {
 	if (mEnableHandler) 
 	{
-		mInputHandler->Act(delta, this);
+		if (mInputHandler->Act(delta, this)) 
+		{
+			CalculateTransform();
+		}
 	}
 }
 
@@ -53,54 +54,6 @@ void MeshGameObject3D::Draw(LPDIRECT3DDEVICE9 pDevice)
 	}
 }
 
-void MeshGameObject3D::Translate(float x, float y, float z)
-{
-	mX += x;
-	mY += y;
-	mZ += z;
-	
-	CalculateTransform();
-}
-
-void MeshGameObject3D::SetPosition(float x, float y, float z)
-{
-	mX = x;
-	mY = y;
-	mZ = z;
-
-	CalculateTransform();
-}
-
-void MeshGameObject3D::Rotate(float xAngle, float yAngle, float zAngle)
-{
-	mXAngle += xAngle;
-	mYAngle += yAngle;
-	mZAngle += zAngle;
-
-	CalculateTransform();
-}
-
-void MeshGameObject3D::SetXRotation(float angle)
-{
-	mXAngle = angle;
-
-	CalculateTransform();
-}
-
-void MeshGameObject3D::SetYRotation(float angle)
-{
-	mYAngle = angle;
-
-	CalculateTransform();
-}
-
-void MeshGameObject3D::SetZRotation(float angle)
-{
-	mZAngle = angle;
-
-	CalculateTransform();
-}
-
 void MeshGameObject3D::SetInputHandler(BasicMeshInputHandler * handler)
 {
 	mInputHandler = handler;
@@ -121,21 +74,21 @@ void MeshGameObject3D::CalculateTransform()
 	D3DXMatrixIdentity(&mTransform);
 
 	D3DXMATRIXA16 rot;
-	if (mXAngle != 0) 
+	if (mRotationX != 0) 
 	{
-		D3DXMatrixRotationX(&rot, mXAngle);
+		D3DXMatrixRotationX(&rot, mRotationX);
 		D3DXMatrixMultiply(&mTransform, &mTransform, &rot);
 	}
 
-	if (mYAngle != 0)
+	if (mRotationY != 0)
 	{
-		D3DXMatrixRotationY(&rot, mYAngle);
+		D3DXMatrixRotationY(&rot, mRotationY);
 		D3DXMatrixMultiply(&mTransform, &mTransform, &rot);
 	}
 
-	if (mZAngle != 0)
+	if (mRotationZ != 0)
 	{
-		D3DXMatrixRotationZ(&rot, mZAngle);
+		D3DXMatrixRotationZ(&rot, mRotationZ);
 		D3DXMatrixMultiply(&mTransform, &mTransform, &rot);
 	}
 

@@ -1,13 +1,11 @@
 #pragma once
 
-#include <d3dx9.h>
 #include "MeshObject.h"
 #include "BasicMeshInputHandler.h"
-
-class BasicMeshInputHandler;
+#include "GameObject.h"
 
 // A class that stores and loads meshes with material/textures
-class MeshGameObject3D {
+class MeshGameObject3D : GameObject{
 public:
 	// constructor with starting position as 0, 0, 0
 	MeshGameObject3D(MeshObject* pMeshObj);
@@ -24,24 +22,6 @@ public:
 	// renders the mesh object
 	void Draw(LPDIRECT3DDEVICE9 pDevice);
 
-	// moves game object in "meters"
-	void Translate(float x, float y, float z);
-
-	// sets game object's position in "meters"
-	void SetPosition(float x, float y, float z);
-
-	// rotates the gameobject by the angle given in radians
-	void Rotate(float xAngle, float yAngle, float zAngle);
-
-	// sets rotation angle around x-axis
-	void SetXRotation(float angle);
-
-	// sets rotation angle around y-axis
-	void SetYRotation(float angle);
-
-	// sets rotation angle around z-axis
-	void SetZRotation(float angle);
-
 	// sets the input handler for this game object
 	void SetInputHandler(BasicMeshInputHandler* handler);
 
@@ -51,16 +31,14 @@ public:
 	// gets the bool value that enable or disables 
 	bool GetEnableHandler();
 
-private:
 	// Calulates the entire transform
 	void CalculateTransform();
 
+private:
 	// pointer to object holding mesh data
 	MeshObject* mPMeshObj;
-
-	// transform stuff
-	float mX, mY, mZ;
-	float mXAngle, mYAngle, mZAngle;
+	
+	// transform matrix
 	D3DXMATRIXA16 mTransform;
 
 	// input handler

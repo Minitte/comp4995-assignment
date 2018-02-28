@@ -57,6 +57,9 @@
     <ClCompile Include="InputHandler.cpp">
       <Filter>Source Files\Game Objects\Input Handlers</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Source Files\Game Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameWindow.h">
@@ -85,6 +88,9 @@
     </ClInclude>
     <ClInclude Include="InputHandler.h">
       <Filter>Header Files\Game Objects\Input Handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Header Files\Game Objects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

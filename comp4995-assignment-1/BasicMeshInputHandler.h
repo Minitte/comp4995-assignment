@@ -1,9 +1,6 @@
 #pragma once
 
-#include <d3dx9.h>
-#include "MeshGameObject3D.h"
-
-class MeshGameObject3D;
+#include "GameObject.h"
 
 class BasicMeshInputHandler {
 public:
@@ -11,11 +8,6 @@ public:
 	virtual ~BasicMeshInputHandler();
 	
 	// actions and pre-render work 
-	virtual void Act(int delta, MeshGameObject3D* gameObj);
+	virtual int Act(int delta, GameObject* gameObj);
 
-	// changes the enable flag for the input handler
-	void SetEnabled(bool enable);
-
-private:
-	bool mEnable;
 };

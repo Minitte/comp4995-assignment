@@ -1,5 +1,7 @@
 #pragma once
 
+#include <d3dx9.h>
+
 class GameObject {
 
 public:
@@ -8,6 +10,12 @@ public:
 
 	// constructor
 	GameObject(float x, float y, float z);
+
+	// act and pre render stuff
+	virtual void Act(int delta) = 0;
+
+	// render
+	virtual void Draw(LPDIRECT3DDEVICE9 pDevice) = 0;
 
 	// translate by x y z
 	virtual inline void Translate(float x, float y, float z);

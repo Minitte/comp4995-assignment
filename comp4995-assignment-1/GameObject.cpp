@@ -3,12 +3,14 @@
 GameObject::GameObject()
 	: mX(0), mY(0), mZ(0)
 	, mRotationX(0), mRotationY(0), mRotationZ(0)
+	, mScaleX(1), mScaleY(1), mScaleZ(1)
 {
 }
 
 GameObject::GameObject(float x, float y, float z)
 	: mX(x), mY(y), mZ(z)
 	, mRotationX(0), mRotationY(0), mRotationZ(0)
+	, mScaleX(1), mScaleY(1), mScaleZ(1)
 {
 }
 
