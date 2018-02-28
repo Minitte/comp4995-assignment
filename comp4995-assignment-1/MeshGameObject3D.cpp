@@ -18,7 +18,14 @@ MeshGameObject3D::MeshGameObject3D(MeshObject* pMeshObj, float x, float y, float
 
 MeshGameObject3D::~MeshGameObject3D()
 {
-	
+}
+
+void MeshGameObject3D::Act(int delta)
+{
+	if (mEnableHandler) 
+	{
+		mInputHandler->Act(delta, this);
+	}
 }
 
 void MeshGameObject3D::Draw(LPDIRECT3DDEVICE9 pDevice)
@@ -92,6 +99,16 @@ void MeshGameObject3D::SetZRotation(float angle)
 	mZAngle = angle;
 
 	CalculateTransform();
+}
+
+void MeshGameObject3D::SetInputHandler(BasicMeshInputHandler * handler)
+{
+	mInputHandler = handler;
+}
+
+void MeshGameObject3D::SetEnableHandler(bool enable)
+{
+	mEnableHandler = enable;
 }
 
 void MeshGameObject3D::CalculateTransform()

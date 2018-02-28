@@ -11,32 +11,19 @@ namespace GameCore {
 		// Turn on the zbuffer
 		mPDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
 		// Turn on ambient lighting 
-		mPDevice->SetRenderState(D3DRS_AMBIENT, 0xffffffff);
+		mPDevice->SetRenderState(D3DRS_AMBIENT, 0x00555555); // ?rgb
+		// enables lighting
+		mPDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
+		//set vertex shading
+		mPDevice->SetFVF(D3DFVF_XYZ | D3DFVF_NORMAL); // DirectX9 version
 
 		if (mPDevice == nullptr)
 		{
 			mWindow->SetError("Cannot render because there is no device");
 		}
 
-		// baboon
-		mBitmapSurface = new BitmapSurface("assets/baboon.bmp");
-		mBitmapSurface->InitSurface(mPDevice);
-
-		// fps counter
-		mFpsText = new TextGameObject2D("?", 0, 0, 32, 16, mPDevice);
-
-		// game objects
-		mGameObj = new std::vector<MeshGameObject3D*>();
-
-		MeshObject* tigerMesh = new MeshObject(mPDevice, "assets/tiger.x");
-		MeshGameObject3D* tigerObj = new MeshGameObject3D(tigerMesh, 1, 0, 0);
-		tigerObj->Rotate(0, D3DXToRadian(120.f), 0);
-		mGameObj->push_back(tigerObj);
-
-		MeshObject* tigerMesh2 = new MeshObject(mPDevice, "assets/tiger.x");
-		MeshGameObject3D* tigerObj2 = new MeshGameObject3D(tigerMesh2, -1, 0, 0);
-		tigerObj2->Rotate(0, D3DXToRadian(-35.f), 0);
-		mGameObj->push_back(tigerObj2);
+		IniGameObj();
+		SetupView();
 	}
 
 	Game::~Game()
@@ -48,12 +35,51 @@ namespace GameCore {
 
 		delete mGameObj;
 		delete mBitmapSurface;
+		delete mCamera;
+	}
+
+	void Game::IniGameObj()
+	{
+		// baboon
+		mBitmapSurface = new BitmapSurface("assets/baboon.bmp");
+		mBitmapSurface->InitSurface(mPDevice);
+
+		// fps counter
+		mFpsText = new TextGameObject2D("?", 0, 0, 32, 16, mPDevice);
+
+		// game objects list
+		mGameObj = new std::vector<MeshGameObject3D*>();
+
+		MeshObject* airplaneMesh = new MeshObject(mPDevice, "assets/airplane2.x");
+		MeshGameObject3D* airplaneObj = new MeshGameObject3D(airplaneMesh, 0, 0, 0);
+		airplaneObj->Rotate(0, D3DXToRadian(-35.f), 0);
+		BasicMeshInputHandler* inputHandler = new BasicMeshInputHandler();
+		airplaneObj->SetInputHandler(inputHandler);
+		airplaneObj->SetEnableHandler(true);
+		mGameObj->push_back(airplaneObj);
+
+		D3DLIGHT9 light;
+		ZeroMemory(&light, sizeof(D3DLIGHT9));
+		light.Type = D3DLIGHT_POINT;
+		light.Diffuse.r = 0.35f;
+		light.Diffuse.g = 0.35f;
+		light.Diffuse.b = 0.65f;
+		light.Range = 50.0f;
+
+		D3DXVECTOR3 vec;
+		vec = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+		D3DXVec3Normalize((D3DXVECTOR3*)&light.Position, &vec);
+
+		//attach light structure to a Direct3D Lighting index
+		mPDevice->SetLight(0, &light);
+
+		//enable light
+		mPDevice->LightEnable(0, TRUE);
 	}
 
 
 	int Game::GameLoop()
 	{
-
 		LARGE_INTEGER startTime, endTime, freq, frameTime;
 
 		QueryPerformanceFrequency(&freq);
@@ -83,9 +109,16 @@ namespace GameCore {
 
 	void Game::Act(int delta) 
 	{
-		if (GetAsyncKeyState(VK_ESCAPE)) {
+		if (GetAsyncKeyState(VK_ESCAPE)) 
+		{
 			PostQuitMessage(0);
 		}
+
+		for (int i = 0; i < mGameObj->size(); i++) {
+			(*mGameObj)[i]->Act(delta);
+		}
+
+		mCamera->Act();
 	}
 
 	void Game::Render()
@@ -97,15 +130,16 @@ namespace GameCore {
 
 		// Clear the backbuffer and the zbuffer
 		mPDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
-			D3DCOLOR_XRGB(0, 0, 255), 1.0f, 0);
+			D3DCOLOR_XRGB(128, 128, 128), 1.0f, 0);
 
 		// renders the surface of baboon
-		RenderSurface();
-
-		SetupView();
+		// RenderSurface();
 
 		// render scene
 		mPDevice->BeginScene();
+
+		
+
 
 		// render 3d stuff
 		for (int i = 0; i < mGameObj->size(); i++) {
@@ -123,32 +157,9 @@ namespace GameCore {
 
 	void Game::SetupView()
 	{
-		// For our world matrix, we will just leave it as the identity
-		D3DXMATRIXA16 matWorld;
-		//D3DXMatrixRotationY(&matWorld, timeGetTime() / 1000.0f);
-		D3DXMatrixRotationY(&matWorld, 0.0f);
-		mPDevice->SetTransform(D3DTS_WORLD, &matWorld);
-
-		// Set up our view matrix. A view matrix can be defined given an eye point,
-		// a point to lookat, and a direction for which way is up. Here, we set the
-		// eye five units back along the z-axis and up three units, look at the 
-		// origin, and define "up" to be in the y-direction.
-		D3DXVECTOR3 vEyePt(0.0f, 3.0f, -5.0f);
+		D3DXVECTOR3 vEyePt(0.0f, 3.0f, 5.0f);
 		D3DXVECTOR3 vLookatPt(0.0f, 0.0f, 0.0f);
-		D3DXVECTOR3 vUpVec(0.0f, 1.0f, 0.0f);
-		D3DXMATRIXA16 matView;
-		D3DXMatrixLookAtLH(&matView, &vEyePt, &vLookatPt, &vUpVec);
-		mPDevice->SetTransform(D3DTS_VIEW, &matView);
-
-		// For the projection matrix, we set up a perspective transform (which
-		// transforms geometry from 3D view space to 2D viewport space, with
-		// a perspective divide making objects smaller in the distance). To build
-		// a perpsective transform, we need the field of view (1/4 pi is common),
-		// the aspect ratio, and the near and far clipping planes (which define at
-		// what distances geometry should be no longer be rendered).
-		D3DXMATRIXA16 matProj;
-		D3DXMatrixPerspectiveFovLH(&matProj, D3DX_PI / 4, 1.0f, 1.0f, 100.0f);
-		mPDevice->SetTransform(D3DTS_PROJECTION, &matProj);
+		mCamera = new GameCamera(vEyePt, vLookatPt, mPDevice);
 	}
 
 	int Game::RenderSurface() 

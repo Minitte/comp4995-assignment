@@ -6,6 +6,11 @@
 #include "TextGameObject2D.h"
 #include "MeshGameObject3D.h"
 #include "MeshObject.h"
+#include "GameCamera.h"
+#include "BasicMeshInputHandler.h"
+
+
+class MeshGameObject3D;
 
 namespace GameCore {
 	class Game {
@@ -13,6 +18,9 @@ namespace GameCore {
 
 		Game(GameWindow* pWindow);
 		~Game();
+
+		// ini game objects
+		void IniGameObj();
 
 		// the game loop
 		int GameLoop();
@@ -43,5 +51,7 @@ namespace GameCore {
 		// 3d game objects
 		std::vector<MeshGameObject3D*>* mGameObj;
 
+		// camera
+		GameCamera* mCamera;
 	};
 }

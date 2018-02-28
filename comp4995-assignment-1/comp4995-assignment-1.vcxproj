@@ -20,18 +20,24 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameCamera.cpp" />
     <ClCompile Include="GameWindow.cpp" />
+    <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="BitmapSurface.cpp" />
     <ClCompile Include="MeshGameObject3D.cpp" />
+    <ClCompile Include="BasicMeshInputHandler.cpp" />
     <ClCompile Include="MeshObject.cpp" />
     <ClCompile Include="TextGameObject2D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameCamera.h" />
+    <ClInclude Include="InputHandler.h" />
     <ClInclude Include="MeshGameObject3D.h" />
     <ClInclude Include="GameWindow.h" />
     <ClInclude Include="BitmapSurface.h" />
+    <ClInclude Include="BasicMeshInputHandler.h" />
     <ClInclude Include="MeshObject.h" />
     <ClInclude Include="TextGameObject2D.h" />
   </ItemGroup>

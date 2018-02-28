@@ -2,6 +2,9 @@
 
 #include <d3dx9.h>
 #include "MeshObject.h"
+#include "BasicMeshInputHandler.h"
+
+class BasicMeshInputHandler;
 
 // A class that stores and loads meshes with material/textures
 class MeshGameObject3D {
@@ -14,6 +17,9 @@ public:
 
 	// deconstructor
 	~MeshGameObject3D();
+
+	// pre render actions and updates
+	void Act(int delta);
 
 	// renders the mesh object
 	void Draw(LPDIRECT3DDEVICE9 pDevice);
@@ -36,15 +42,23 @@ public:
 	// sets rotation angle around z-axis
 	void SetZRotation(float angle);
 
-private:
+	void SetInputHandler(BasicMeshInputHandler* handler);
 
+	void SetEnableHandler(bool enable);
+
+private:
 	// Calulates the entire transform
 	void CalculateTransform();
 
 	// pointer to object holding mesh data
 	MeshObject* mPMeshObj;
 
+	// transform stuff
 	float mX, mY, mZ;
 	float mXAngle, mYAngle, mZAngle;
 	D3DXMATRIXA16 mTransform;
+
+	// input handler
+	bool mEnableHandler;
+	BasicMeshInputHandler* mInputHandler;
 };

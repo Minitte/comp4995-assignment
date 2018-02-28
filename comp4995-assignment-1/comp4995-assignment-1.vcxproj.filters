@@ -19,6 +19,12 @@
     <Filter Include="Source Files\Game Objects">
       <UniqueIdentifier>{b1b09526-58fd-4110-b91b-3770629fb610}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Game Objects\Input Handlers">
+      <UniqueIdentifier>{1f4c246e-3567-4c26-a1c1-1b1c3fd195fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game Objects\Input Handlers">
+      <UniqueIdentifier>{4e4cad18-a433-4052-b96e-7a0e91d63eb8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -42,6 +48,15 @@
     <ClCompile Include="MeshObject.cpp">
       <Filter>Source Files\Game Objects</Filter>
     </ClCompile>
+    <ClCompile Include="GameCamera.cpp">
+      <Filter>Source Files\Game Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="BasicMeshInputHandler.cpp">
+      <Filter>Source Files\Game Objects\Input Handlers</Filter>
+    </ClCompile>
+    <ClCompile Include="InputHandler.cpp">
+      <Filter>Source Files\Game Objects\Input Handlers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameWindow.h">
@@ -61,6 +76,15 @@
     </ClInclude>
     <ClInclude Include="MeshObject.h">
       <Filter>Header Files\Game Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="GameCamera.h">
+      <Filter>Header Files\Game Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="BasicMeshInputHandler.h">
+      <Filter>Header Files\Game Objects\Input Handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="InputHandler.h">
+      <Filter>Header Files\Game Objects\Input Handlers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
