@@ -52,7 +52,7 @@ namespace GameCore {
 		int mFrames, mFPS;
 
 		// 3d game objects
-		std::vector<MeshGameObject3D*>* mGameObj;
+		std::vector<GameObject*>* mGameObj;
 
 		// camera
 		GameCamera* mCamera;

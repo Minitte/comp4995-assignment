@@ -46,20 +46,22 @@ namespace GameCore {
 		mFpsText = new TextGameObject2D("?", 0, 0, 32, 16, mPDevice);
 
 		// game objects list
-		mGameObj = new std::vector<MeshGameObject3D*>();
+		mGameObj = new std::vector<GameObject*>();
 
 		MeshObject* airplaneMesh = new MeshObject(mPDevice, "assets/airplane2.x");
 		MeshGameObject3D* airplaneObj = new MeshGameObject3D(airplaneMesh, -10, 0, 0);
-		airplaneObj->Rotate(0, D3DXToRadian(-35.f), 0);
+		((GameObject*)airplaneObj)->RotateX(D3DXToRadian(-35.f));
 		BasicMeshInputHandler* inputHandler = new BasicMeshInputHandler();
 		airplaneObj->SetInputHandler(inputHandler);
-		mGameObj->push_back(airplaneObj);
+		airplaneObj->CalculateTransform();
+		mGameObj->push_back((GameObject*)airplaneObj);
 
 		MeshObject* sphereMesh = new MeshObject(mPDevice, "assets/chair.x");
 		MeshGameObject3D* sphereObj = new MeshGameObject3D(sphereMesh, 10, 0, 0);
 		BasicMeshInputHandler* inputHandler2 = new BasicMeshInputHandler();
 		sphereObj->SetInputHandler(inputHandler2);
-		mGameObj->push_back(sphereObj);
+		sphereObj->CalculateTransform();
+		mGameObj->push_back((GameObject*)sphereObj);
 
 		D3DXCOLOR colour = D3DCOLOR_RGBA(255, 0, 0, 0);
 		D3DLIGHT9 light;
@@ -141,24 +143,24 @@ namespace GameCore {
 		{
 			keyDown = true;
 			mCamera->SetEnableControls(true);
-			(*mGameObj)[0]->SetEnableHandler(false);
-			(*mGameObj)[1]->SetEnableHandler(false);
+			((MeshGameObject3D*)(*mGameObj)[0])->SetEnableHandler(false);
+			((MeshGameObject3D*)(*mGameObj)[1])->SetEnableHandler(false);
 		}
 
 		if (GetAsyncKeyState('2') && !keyDown)
 		{
 			keyDown = true;
 			mCamera->SetEnableControls(false);
-			(*mGameObj)[0]->SetEnableHandler(true);
-			(*mGameObj)[1]->SetEnableHandler(false);
+			((MeshGameObject3D*)(*mGameObj)[0])->SetEnableHandler(true);
+			((MeshGameObject3D*)(*mGameObj)[1])->SetEnableHandler(false);
 		}
 
 		if (GetAsyncKeyState('3') && !keyDown)
 		{
 			keyDown = true;
 			mCamera->SetEnableControls(false);
-			(*mGameObj)[0]->SetEnableHandler(false);
-			(*mGameObj)[1]->SetEnableHandler(true);
+			((MeshGameObject3D*)(*mGameObj)[0])->SetEnableHandler(false);
+			((MeshGameObject3D*)(*mGameObj)[1])->SetEnableHandler(true);
 		}
 
 		if (GetAsyncKeyState('0') && !keyDown)
