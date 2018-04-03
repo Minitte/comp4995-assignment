@@ -48,20 +48,23 @@ namespace GameCore {
 		// game objects list
 		mGameObj = new std::vector<GameObject*>();
 
+		// 3d mesh game objects list
+		mMeshObj = new std::vector<MeshGameObject3D*>();
+
 		MeshObject* airplaneMesh = new MeshObject(mPDevice, "assets/airplane2.x");
-		MeshGameObject3D* airplaneObj = new MeshGameObject3D(airplaneMesh, -10, 0, 0);
-		((GameObject*)airplaneObj)->RotateX(D3DXToRadian(-35.f));
+		
+		MeshGameObject3D* airplaneObj = CreateMeshGameObject(airplaneMesh, -10, 0, 0, D3DXToRadian(-35.f), 0, 0);
 		BasicMeshInputHandler* inputHandler = new BasicMeshInputHandler();
 		airplaneObj->SetInputHandler(inputHandler);
-		airplaneObj->CalculateTransform();
 		mGameObj->push_back((GameObject*)airplaneObj);
+		mMeshObj->push_back(airplaneObj);
 
-		MeshObject* sphereMesh = new MeshObject(mPDevice, "assets/chair.x");
-		MeshGameObject3D* sphereObj = new MeshGameObject3D(sphereMesh, 10, 0, 0);
+		MeshObject* chairMesh = new MeshObject(mPDevice, "assets/chair.x");
+		MeshGameObject3D* chairObj = CreateMeshGameObject(chairMesh, -10, 0, 0, 0, 0, 0);
 		BasicMeshInputHandler* inputHandler2 = new BasicMeshInputHandler();
-		sphereObj->SetInputHandler(inputHandler2);
-		sphereObj->CalculateTransform();
-		mGameObj->push_back((GameObject*)sphereObj);
+		chairObj->SetInputHandler(inputHandler2);
+		mGameObj->push_back((GameObject*)chairObj);
+		mMeshObj->push_back(chairObj);
 
 		D3DXCOLOR colour = D3DCOLOR_RGBA(255, 0, 0, 0);
 		D3DLIGHT9 light;
@@ -279,6 +282,18 @@ namespace GameCore {
 		pBackSurf = 0;
 
 		return S_OK;
+	}
+
+	MeshGameObject3D * Game::CreateMeshGameObject(MeshObject* mesh, float posX, float posY, float posZ, float rotX, float rotY, float rotZ)
+	{
+
+		MeshGameObject3D* meshObj = new MeshGameObject3D(mesh, posX, posY, posZ);
+		meshObj->RotateX(rotX);
+		meshObj->RotateY(rotY);
+		meshObj->RotateZ(rotZ);
+		meshObj->CalculateTransform();
+
+		return meshObj;
 	}
 
 }

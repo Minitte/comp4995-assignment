@@ -5,6 +5,7 @@
 #include "GameWindow.h"
 #include "TextGameObject2D.h"
 #include "MeshGameObject3D.h"
+#include "MirrorObject3D.h"
 #include "MeshObject.h"
 #include "GameCamera.h"
 #include "BasicMeshInputHandler.h"
@@ -40,6 +41,9 @@ namespace GameCore {
 		// copies and renders the surface
 		int RenderSurface();
 
+		// creates a 3d mesh object
+		MeshGameObject3D * Game::CreateMeshGameObject(MeshObject* mesh, float posX, float posY, float posZ, float rotX, float rotY, float rotZ);
+
 	private:
 		// window and device 
 		GameWindow* mWindow;
@@ -51,8 +55,11 @@ namespace GameCore {
 		LARGE_INTEGER mTime;
 		int mFrames, mFPS;
 
-		// 3d game objects
+		// game objects
 		std::vector<GameObject*>* mGameObj;
+
+		// 3d mesh game objects
+		std::vector<MeshGameObject3D*>* mMeshObj;
 
 		// camera
 		GameCamera* mCamera;
@@ -62,5 +69,8 @@ namespace GameCore {
 
 		// am light toggle
 		bool mAmbientEnable;
+		
+		// mirror
+		MirrorObject3D* mPMirrorObj;
 	};
 }
