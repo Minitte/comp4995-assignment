@@ -95,3 +95,48 @@ inline void GameObject::SetScaleZ(float scale)
 {
 	mScaleZ = scale;
 }
+
+inline float GameObject::GetX()
+{
+	return mX;
+}
+
+inline float GameObject::GetY()
+{
+	return mY;
+}
+
+inline float GameObject::GetZ()
+{
+	return mZ;
+}
+
+inline float GameObject::GetRotationX()
+{
+	return mRotationX;
+}
+
+inline float GameObject::GetRotationY()
+{
+	return mRotationY;
+}
+
+inline float GameObject::GetRotationZ()
+{
+	return mRotationZ;
+}
+
+inline float GameObject::GetScaleX()
+{
+	return mScaleX;
+}
+
+inline float GameObject::GetScaleY()
+{
+	return mScaleY;
+}
+
+inline float GameObject::GetScaleZ()
+{
+	return mScaleY;
+}

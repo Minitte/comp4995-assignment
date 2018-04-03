@@ -97,4 +97,9 @@ void MeshGameObject3D::CalculateTransform()
 	D3DXMatrixMultiply(&mTransform, &mTransform, &trans);
 }
 
+MeshObject * MeshGameObject3D::GetPMeshObj()
+{
+	return mPMeshObj;
+}
+
 

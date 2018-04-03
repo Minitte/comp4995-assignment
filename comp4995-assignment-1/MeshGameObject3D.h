@@ -5,7 +5,7 @@
 #include "GameObject.h"
 
 // A class that stores and loads meshes with material/textures
-class MeshGameObject3D : GameObject{
+class MeshGameObject3D : public GameObject{
 public:
 	// constructor with starting position as 0, 0, 0
 	MeshGameObject3D(MeshObject* pMeshObj);
@@ -17,10 +17,10 @@ public:
 	~MeshGameObject3D();
 
 	// pre render actions and updates
-	void Act(int delta);
+	virtual void Act(int delta);
 
 	// renders the mesh object
-	void Draw(LPDIRECT3DDEVICE9 pDevice);
+	virtual void Draw(LPDIRECT3DDEVICE9 pDevice);
 
 	// sets the input handler for this game object
 	void SetInputHandler(BasicMeshInputHandler* handler);
@@ -33,6 +33,9 @@ public:
 
 	// Calulates the entire transform
 	void CalculateTransform();
+
+	// getter for meshobject
+	MeshObject* GetPMeshObj();
 
 private:
 	// pointer to object holding mesh data

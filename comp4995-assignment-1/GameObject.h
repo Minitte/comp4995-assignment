@@ -65,6 +65,33 @@ public:
 	// sets scaling in z direction
 	virtual inline void SetScaleZ(float scale);
 
+	// gets the x position
+	virtual inline float GetX();
+
+	// gets the y position
+	virtual inline float GetY();
+
+	// gets the z position
+	virtual inline float GetZ();
+
+	// gets the x rotation
+	virtual inline float GetRotationX();
+
+	// gets the y rotation
+	virtual inline float GetRotationY();
+
+	// gets the z rotation
+	virtual inline float GetRotationZ();
+
+	// gets the x scale
+	virtual inline float GetScaleX();
+
+	// gets the y scale
+	virtual inline float GetScaleY();
+
+	// gets the z scale
+	virtual inline float GetScaleZ();
+
 protected:
 	// translation
 	float mX, mY, mZ;
