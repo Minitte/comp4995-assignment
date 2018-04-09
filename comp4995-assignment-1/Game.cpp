@@ -278,7 +278,7 @@ namespace GameCore {
 			float posZ = (*mMeshObj)[i]->GetZ();
 
 			BoundingSphere bSphere;
-			bSphere.radius = 5.f;
+			bSphere.radius = 1.f;
 			bSphere.center = D3DXVECTOR3(posX, posY, posZ);
 
 			(*mMeshObj)[i]->SetEnableHandler(false);
