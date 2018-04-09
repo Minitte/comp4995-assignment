@@ -39,7 +39,7 @@ void MeshGameObject3D::Draw(LPDIRECT3DDEVICE9 pDevice)
 
 	
 
-	pDevice->SetTransform(D3DTS_WORLD, &mTransform);
+	pDevice->SetTransform(D3DTS_WORLD, & mTransform);
 
 	// Meshes are divided into subsets, one for each material. Render them in
 	// a loop

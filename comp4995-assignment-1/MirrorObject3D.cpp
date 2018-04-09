@@ -2,6 +2,7 @@
 
 MirrorObject3D::MirrorObject3D(MeshObject* pMeshObj)
 	: GameObject() 
+	, mPMeshObj(pMeshObj)
 {
 }
 
@@ -16,7 +17,7 @@ void MirrorObject3D::Act(int delta)
 void MirrorObject3D::Draw(LPDIRECT3DDEVICE9 pDevice)
 {
 
-	DWORD numMats = mPMeshObj->getNumMaterials();
+	//WORD numMats = mPMeshObj->getNumMaterials();
 	LPD3DXMESH meshs = mPMeshObj->getMeshs();
 	D3DMATERIAL9* mats = mPMeshObj->getMaterials();
 	LPDIRECT3DTEXTURE9* texs = mPMeshObj->getTextures();
@@ -69,17 +70,18 @@ void MirrorObject3D::Draw(LPDIRECT3DDEVICE9 pDevice)
 			obj->GetX(), obj->GetY(), obj->GetZ()); // actually suppose to be the objects.....
 		W = T * R;
 
-		pDevice->Clear(0, 0, D3DCLEAR_ZBUFFER, 0, 1.0f, 0);
+		//pDevice->Clear(0, 0, D3DCLEAR_ZBUFFER, 0, 1.0f, 0);
 
 		pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_DESTCOLOR);
 		pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ZERO);
 		
 		pDevice->SetTransform(D3DTS_WORLD, &W);
 
+		MeshObject* meshsObjRef = obj->GetPMeshObj();
+
 		// render
-		for (DWORD i = 0; i < 1; i++)
+		for (DWORD i = 0; i < meshsObjRef->getNumMaterials(); i++)
 		{
-			MeshObject* meshsObjRef = obj->GetPMeshObj();
 
 			LPD3DXMESH meshsRef = meshsObjRef->getMeshs();
 			D3DMATERIAL9* matsRef = meshsObjRef->getMaterials();
@@ -91,10 +93,11 @@ void MirrorObject3D::Draw(LPDIRECT3DDEVICE9 pDevice)
 			meshsRef->DrawSubset(i);
 		}
 
-		pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
-		pDevice->SetRenderState(D3DRS_STENCILENABLE, false);
-		pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	}
+
+	pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
+	pDevice->SetRenderState(D3DRS_STENCILENABLE, false);
+	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
 	
 }

@@ -59,13 +59,6 @@ namespace GameCore {
 		mGameObj->push_back((GameObject*)airplaneObj);
 		mMeshObj->push_back(airplaneObj);
 
-		MeshObject* chairMesh = new MeshObject(mPDevice, "assets/chair.x");
-		MeshGameObject3D* chairObj = CreateMeshGameObject(chairMesh, -10, 0, 0, 0, 0, 0);
-		BasicMeshInputHandler* inputHandler2 = new BasicMeshInputHandler();
-		chairObj->SetInputHandler(inputHandler2);
-		mGameObj->push_back((GameObject*)chairObj);
-		mMeshObj->push_back(chairObj);
-
 		D3DXCOLOR colour = D3DCOLOR_RGBA(255, 0, 0, 0);
 		D3DLIGHT9 light;
 		ZeroMemory(&light, sizeof(light));
@@ -103,6 +96,11 @@ namespace GameCore {
 
 		mPDevice->SetLight(2, &light);
 		//mPDevice->LightEnable(2, TRUE);
+
+		MeshObject* chairMesh = new MeshObject(mPDevice, "assets/chair.x");
+		mPMirrorObj = new MirrorObject3D(chairMesh);
+		mGameObj->push_back(mPMirrorObj);
+		mPMirrorObj->SetReflectionList(mMeshObj);
 	}
 
 
