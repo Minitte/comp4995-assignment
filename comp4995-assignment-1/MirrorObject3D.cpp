@@ -19,7 +19,10 @@ void MirrorObject3D::Draw(LPDIRECT3DDEVICE9 pDevice)
 {
 
 	LPDIRECT3DVERTEXBUFFER9 vertexBuff;
-	pDevice->CreateVertexBuffer(mNumVertice * sizeof(CUSTOMVERTEX), 0, D3DFVF_NORMAL, D3DPOOL_MANAGED, &vertexBuff, NULL);
+	pDevice->CreateVertexBuffer(mNumVertice * sizeof(CUSTOMVERTEX), 0, D3DFVF_XYZ | D3DFVF_NORMAL, D3DPOOL_MANAGED, &vertexBuff, NULL);
+
+	vertexBuff->Lock(0, 0, (void**)&mVertices, 0);
+	vertexBuff->Unlock();
 
 	pDevice->SetRenderState(D3DRS_STENCILENABLE, true);
 	pDevice->SetRenderState(D3DRS_STENCILFUNC, D3DCMP_ALWAYS);
@@ -36,11 +39,16 @@ void MirrorObject3D::Draw(LPDIRECT3DDEVICE9 pDevice)
 	pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ZERO);
 	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
 
+	// test mats
+	MeshObject* test = (*mReflectionObjects)[0]->GetPMeshObj();
+	D3DMATERIAL9* testMat = test->getMaterials();
+	LPDIRECT3DTEXTURE9* testTex = test->getTextures();
+
 	// draw the mirror to the stencil buffer
-	pDevice->SetStreamSource(0, vertexBuff, 0, mNumVertice);
+	pDevice->SetStreamSource(0, vertexBuff, 0, sizeof(CUSTOMVERTEX));
 	pDevice->SetFVF(D3DFVF_XYZ | D3DFVF_NORMAL); // wat
-	//pDevice->SetMaterial(&mats[0]);
-	//pDevice->SetTexture(0, texs[0]);
+	pDevice->SetMaterial(&testMat[0]);
+	pDevice->SetTexture(0, testTex[0]);
 	D3DXMATRIXA16 trans;
 	D3DXMatrixTranslation(&trans, mX, mY, mZ);
 	pDevice->SetTransform(D3DTS_WORLD, &trans); // mirror position

@@ -9,6 +9,7 @@
 #include "MeshObject.h"
 #include "GameCamera.h"
 #include "BasicMeshInputHandler.h"
+#include "Ray.h"
 
 
 class MeshGameObject3D;
@@ -43,6 +44,15 @@ namespace GameCore {
 
 		// creates a 3d mesh object
 		MeshGameObject3D * Game::CreateMeshGameObject(MeshObject* mesh, float posX, float posY, float posZ, float rotX, float rotY, float rotZ);
+
+		// calulcates the the xy screen position to a ray
+		Ray CalcPickingRay(int x, int y);
+
+		// ray to sphere interseection test
+		bool RaySphereIntersectionTest(Ray* ray, BoundingSphere* sphere);
+
+		// shoot a ray 
+		void ShootScreenRay(int x, int y);
 
 	private:
 		// window and device 

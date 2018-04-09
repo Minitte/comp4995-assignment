@@ -102,6 +102,11 @@ namespace GameCore {
 		return mPDevice;
 	}
 
+	HWND GameWindow::GetHandle()
+	{
+		return mHandle;
+	}
+
 	LRESULT CALLBACK GameWindow::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
 		return DefWindowProc(hwnd, msg, wParam, lParam);
@@ -111,7 +116,7 @@ namespace GameCore {
 		D3DPRESENT_PARAMETERS d3dpp;//rendering info
 		D3DDISPLAYMODE d3ddm;//current display mode info
 		HRESULT r = 0;
-
+		
 		if (*ppDevice)
 			(*ppDevice)->Release();
 

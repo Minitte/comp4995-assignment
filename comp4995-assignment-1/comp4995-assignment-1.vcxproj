@@ -30,6 +30,7 @@
     <ClCompile Include="BasicMeshInputHandler.cpp" />
     <ClCompile Include="MeshObject.cpp" />
     <ClCompile Include="MirrorObject3D.cpp" />
+    <ClCompile Include="Ray.cpp" />
     <ClCompile Include="TextGameObject2D.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -44,6 +45,7 @@
     <ClInclude Include="BasicMeshInputHandler.h" />
     <ClInclude Include="MeshObject.h" />
     <ClInclude Include="MirrorObject3D.h" />
+    <ClInclude Include="Ray.h" />
     <ClInclude Include="TextGameObject2D.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

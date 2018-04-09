@@ -58,7 +58,6 @@ namespace GameCore {
 		airplaneObj->SetInputHandler(inputHandler);
 		mGameObj->push_back((GameObject*)airplaneObj);
 		mMeshObj->push_back(airplaneObj);
-		airplaneObj->SetEnableHandler(true);
 
 		// mirror vertex
 		CUSTOMVERTEX vert[] = {
@@ -110,6 +109,17 @@ namespace GameCore {
 		if (GetAsyncKeyState(VK_ESCAPE)) 
 		{
 			PostQuitMessage(0);
+		}
+
+		if (GetAsyncKeyState(VK_LBUTTON)) {
+			
+			POINT pt;
+
+			GetCursorPos(&pt);
+
+			ScreenToClient(mWindow->GetHandle(), &pt);
+
+			ShootScreenRay(pt.x, pt.y);
 		}
 
 		for (int i = 0; i < mGameObj->size(); i++) {
@@ -199,5 +209,92 @@ namespace GameCore {
 
 		return meshObj;
 	}
+
+	Ray Game::CalcPickingRay(int x, int y)
+	{
+		float px = 0.0f;
+		float py = 0.0f;
+
+		D3DVIEWPORT9 vp;
+		mPDevice->GetViewport(&vp);
+
+		D3DXMATRIX proj;
+		mPDevice->GetTransform(D3DTS_PROJECTION, &proj);
+
+		px = (((2.0f*x) / vp.Width) - 1.0f) / proj(0, 0);
+		py = (((-2.0f*y) / vp.Height) + 1.0f) / proj(1, 1);
+
+		Ray ray;
+		ray.origin = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		ray.direction = D3DXVECTOR3(px, py, 1.0f);
+
+		return ray;
+	}
+
+	bool Game::RaySphereIntersectionTest(Ray * ray, BoundingSphere * sphere)
+	{
+		D3DXVECTOR3 v = ray->origin - sphere->center;
+		float b = 2.0f * D3DXVec3Dot(&ray->direction, &v);
+		float c = D3DXVec3Dot(&v, &v) - (sphere->radius * sphere->radius);
+
+		// find the discriminant
+		float discriminant = (b * b) - (4.0f * c);
+
+		// test for imaginary number
+		if (discriminant < 0.0f)
+		{
+			return false;
+		}
+
+		discriminant = sqrtf(discriminant);
+
+		float s0 = (-b + discriminant) / 2.0f;
+		float s1 = (-b - discriminant) / 2.0f;
+
+		// if a solution is >= 0, then we intersected the sphere
+		if (s0 >= 0.0f || s1 >= 0.0f)
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+	void Game::ShootScreenRay(int x, int y)
+	{
+		// compute the ray in view space given the clicked screen point
+		Ray ray = CalcPickingRay(x, y);
+		// transform the ray to world space
+		D3DXMATRIX view;
+		mPDevice->GetTransform(D3DTS_VIEW, &view);
+		D3DXMATRIX viewInverse;
+		D3DXMatrixInverse(&viewInverse, 0, &view);
+		ray.Transform(&viewInverse);
+
+		// test for a hit
+		for (int i = 0; i < mMeshObj->size(); i++) {
+			float posX = (*mMeshObj)[i]->GetX();
+			float posY = (*mMeshObj)[i]->GetY();
+			float posZ = (*mMeshObj)[i]->GetZ();
+
+			BoundingSphere bSphere;
+			bSphere.radius = 5.f;
+			bSphere.center = D3DXVECTOR3(posX, posY, posZ);
+
+			(*mMeshObj)[i]->SetEnableHandler(false);
+
+			if (RaySphereIntersectionTest(&ray, &bSphere)) 
+			{
+				for (int j = i; j < mMeshObj->size(); j++) {
+					(*mMeshObj)[j]->SetEnableHandler(false);
+				}
+
+				(*mMeshObj)[i]->SetEnableHandler(true);
+				return;
+			}
+		}
+	}
+
+	
 
 }

@@ -25,6 +25,9 @@ namespace GameCore {
 		// returns a pointer for device
 		LPDIRECT3DDEVICE9 GetDevice();
 
+		// returns a handle to the window
+		HWND GetHandle();
+
 	private:
 
 		// handles and pointers to certain resources
