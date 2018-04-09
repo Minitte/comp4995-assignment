@@ -22,6 +22,18 @@ namespace GameCore {
 
 		IniGameObj();
 		SetupView();
+
+		// seed random number generator
+		srand((unsigned int)time(0));
+
+		//
+		// Create Snow System.
+		//
+		BoundingBox boundingBox;
+		boundingBox.min = D3DXVECTOR3(-15.0f, -15.0f, -15.0f);
+		boundingBox.max = D3DXVECTOR3(15.0f, 15.0f, 15.0f);
+		mSnowParticle = new SnowParticle(&boundingBox, 1000);
+		mSnowParticle->init(mPDevice, "assets/baboon.bmp");
 	}
 
 	Game::~Game()
@@ -126,6 +138,8 @@ namespace GameCore {
 			(*mGameObj)[i]->Act(delta);
 		}
 
+		mSnowParticle->update(0.1f);
+
 		mCamera->Act();
 	}
 
@@ -148,6 +162,14 @@ namespace GameCore {
 
 		//set vertex shading
 		mPDevice->SetFVF(D3DFVF_XYZ | D3DFVF_NORMAL); // DirectX9 version
+
+		// reset world
+		D3DXMATRIX resetMat;
+		D3DXMatrixIdentity(&resetMat);
+		mPDevice->SetTransform(D3DTS_WORLD, &resetMat);
+
+		// snow particle
+		mSnowParticle->render();
 
 		// render 3d stuff
 		for (int i = 0; i < mGameObj->size(); i++) {

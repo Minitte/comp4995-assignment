@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CustomTypes.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameCamera.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -30,14 +31,18 @@
     <ClCompile Include="BasicMeshInputHandler.cpp" />
     <ClCompile Include="MeshObject.cpp" />
     <ClCompile Include="MirrorObject3D.cpp" />
+    <ClCompile Include="ParticleSystem.cpp" />
     <ClCompile Include="Ray.cpp" />
+    <ClCompile Include="SnowParticle.cpp" />
     <ClCompile Include="TextGameObject2D.cpp" />
+    <ClCompile Include="Util.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CustomTypes.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameCamera.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="ParticleSystem.h" />
     <ClInclude Include="InputHandler.h" />
     <ClInclude Include="MeshGameObject3D.h" />
     <ClInclude Include="GameWindow.h" />
@@ -46,7 +51,9 @@
     <ClInclude Include="MeshObject.h" />
     <ClInclude Include="MirrorObject3D.h" />
     <ClInclude Include="Ray.h" />
+    <ClInclude Include="SnowParticle.h" />
     <ClInclude Include="TextGameObject2D.h" />
+    <ClInclude Include="Util.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

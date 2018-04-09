@@ -37,8 +37,6 @@ void MeshGameObject3D::Draw(LPDIRECT3DDEVICE9 pDevice)
 	D3DMATERIAL9* mats = mPMeshObj->getMaterials();
 	LPDIRECT3DTEXTURE9* texs = mPMeshObj->getTextures();
 
-	
-
 	pDevice->SetTransform(D3DTS_WORLD, & mTransform);
 
 	// Meshes are divided into subsets, one for each material. Render them in

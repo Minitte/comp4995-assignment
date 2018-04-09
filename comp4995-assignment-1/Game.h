@@ -10,7 +10,8 @@
 #include "GameCamera.h"
 #include "BasicMeshInputHandler.h"
 #include "Ray.h"
-
+#include "SnowParticle.h"
+#include <ctime>
 
 class MeshGameObject3D;
 
@@ -82,5 +83,8 @@ namespace GameCore {
 		
 		// mirror
 		MirrorObject3D* mPMirrorObj;
+
+		// particle system
+		SnowParticle* mSnowParticle;
 	};
 }
