@@ -30,9 +30,9 @@ namespace GameCore {
 		// Create Snow System.
 		//
 		BoundingBox boundingBox;
-		boundingBox.min = D3DXVECTOR3(-15.0f, -15.0f, -15.0f);
-		boundingBox.max = D3DXVECTOR3(15.0f, 15.0f, 15.0f);
-		mSnowParticle = new SnowParticle(&boundingBox, 1000);
+		boundingBox.min = D3DXVECTOR3(-25.0f, -25.0f, -25.0f);
+		boundingBox.max = D3DXVECTOR3(25.0f, 25.0f, 25.0f);
+		mSnowParticle = new SnowParticle(&boundingBox, 100);
 		mSnowParticle->init(mPDevice, "assets/baboon.bmp");
 	}
 
@@ -70,6 +70,13 @@ namespace GameCore {
 		airplaneObj->SetInputHandler(inputHandler);
 		mGameObj->push_back((GameObject*)airplaneObj);
 		mMeshObj->push_back(airplaneObj);
+
+		MeshObject* chairMesh = new MeshObject(mPDevice, "assets/sphere.x");
+		MeshGameObject3D* chairObj = CreateMeshGameObject(chairMesh, 10, 0, 0, 0, 0, 0);
+		BasicMeshInputHandler* inputHandler2 = new BasicMeshInputHandler();
+		chairObj->SetInputHandler(inputHandler2);
+		mGameObj->push_back((GameObject*)chairObj);
+		mMeshObj->push_back(chairObj);
 
 		// mirror vertex
 		CUSTOMVERTEX vert[] = {
@@ -311,9 +318,12 @@ namespace GameCore {
 					(*mMeshObj)[j]->SetEnableHandler(false);
 				}
 
+				mCamera->SetEnableControls(false);
 				(*mMeshObj)[i]->SetEnableHandler(true);
 				return;
 			}
+
+			mCamera->SetEnableControls(true);
 		}
 	}
 
