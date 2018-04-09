@@ -33,6 +33,7 @@
     <ClCompile Include="TextGameObject2D.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CustomTypes.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameCamera.h" />
     <ClInclude Include="GameObject.h" />

@@ -98,5 +98,8 @@
     <ClInclude Include="MirrorObject3D.h">
       <Filter>Header Files\Game Objects</Filter>
     </ClInclude>
+    <ClInclude Include="CustomTypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

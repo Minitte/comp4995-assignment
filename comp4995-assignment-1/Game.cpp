@@ -58,47 +58,19 @@ namespace GameCore {
 		airplaneObj->SetInputHandler(inputHandler);
 		mGameObj->push_back((GameObject*)airplaneObj);
 		mMeshObj->push_back(airplaneObj);
+		airplaneObj->SetEnableHandler(true);
 
-		D3DXCOLOR colour = D3DCOLOR_RGBA(255, 0, 0, 0);
-		D3DLIGHT9 light;
-		ZeroMemory(&light, sizeof(light));
+		// mirror vertex
+		CUSTOMVERTEX vert[] = {
+		{ -1, 1, 0 },	// triangle 1
+		{ 1, 1, 0 },	// t1
+		{ 1, -1, 0 },	// t1
+		{ -1, 1, 0 },	// triangle 2
+		{ 1, -1, 0 },	// t2
+		{ -1, -1, 0 },	// t2
+		};
 
-		light.Type = D3DLIGHT_SPOT;
-		light.Ambient = colour * 0.4f;
-		light.Diffuse = colour;
-		light.Specular = colour * 0.4f;
-		light.Range = 5;
-		light.Position = D3DXVECTOR3(-10, 5, 0);
-		light.Direction = D3DXVECTOR3(0, -1, 0);
-
-		mPDevice->SetLight(0, &light);
-		//mPDevice->LightEnable(0, TRUE);
-
-		colour = D3DCOLOR_RGBA(0, 255, 0, 0);
-		ZeroMemory(&light, sizeof(light));
-		light.Type = D3DLIGHT_POINT;
-		light.Ambient = colour * 0.4f;
-		light.Diffuse = colour;
-		light.Specular = colour * 0.4f;
-		light.Range = 5;
-		light.Position = D3DXVECTOR3(0, 0, 0);
-
-		mPDevice->SetLight(1, &light);
-		//mPDevice->LightEnable(1, TRUE);
-
-		colour = D3DCOLOR_RGBA(255, 200, 100, 0);
-		ZeroMemory(&light, sizeof(light));
-		light.Type = D3DLIGHT_DIRECTIONAL;
-		light.Ambient = colour * 0.4f;
-		light.Diffuse = colour;
-		light.Specular = colour * 0.4f;
-		light.Direction = D3DXVECTOR3(1, 0, 0);
-
-		mPDevice->SetLight(2, &light);
-		//mPDevice->LightEnable(2, TRUE);
-
-		MeshObject* chairMesh = new MeshObject(mPDevice, "assets/chair.x");
-		mPMirrorObj = new MirrorObject3D(chairMesh);
+		mPMirrorObj = new MirrorObject3D(vert, 6);
 		mGameObj->push_back(mPMirrorObj);
 		mPMirrorObj->SetReflectionList(mMeshObj);
 	}
@@ -138,72 +110,6 @@ namespace GameCore {
 		if (GetAsyncKeyState(VK_ESCAPE)) 
 		{
 			PostQuitMessage(0);
-		}
-
-		if (GetAsyncKeyState('1') && !keyDown)
-		{
-			keyDown = true;
-			mCamera->SetEnableControls(true);
-			((MeshGameObject3D*)(*mGameObj)[0])->SetEnableHandler(false);
-			((MeshGameObject3D*)(*mGameObj)[1])->SetEnableHandler(false);
-		}
-
-		if (GetAsyncKeyState('2') && !keyDown)
-		{
-			keyDown = true;
-			mCamera->SetEnableControls(false);
-			((MeshGameObject3D*)(*mGameObj)[0])->SetEnableHandler(true);
-			((MeshGameObject3D*)(*mGameObj)[1])->SetEnableHandler(false);
-		}
-
-		if (GetAsyncKeyState('3') && !keyDown)
-		{
-			keyDown = true;
-			mCamera->SetEnableControls(false);
-			((MeshGameObject3D*)(*mGameObj)[0])->SetEnableHandler(false);
-			((MeshGameObject3D*)(*mGameObj)[1])->SetEnableHandler(true);
-		}
-
-		if (GetAsyncKeyState('0') && !keyDown)
-		{
-			keyDown = true;
-			if (!mAmbientEnable) {
-				mPDevice->SetRenderState(D3DRS_AMBIENT, 0x00000000); // ?rgb
-			}
-			else 
-			{
-				mPDevice->SetRenderState(D3DRS_AMBIENT, 0x009a9a9aa); // ?rgb
-			}
-			mAmbientEnable = !mAmbientEnable;
-		}
-
-		if (GetAsyncKeyState('9') && !keyDown)
-		{
-			keyDown = true;
-			BOOL enable;
-			mPDevice->GetLightEnable(0, &enable);
-			mPDevice->LightEnable(0, !enable);
-		}
-
-		if (GetAsyncKeyState('8') && !keyDown)
-		{
-			keyDown = true;
-			BOOL enable;
-			mPDevice->GetLightEnable(1, &enable);
-			mPDevice->LightEnable(1, !enable);
-		}
-
-		if (GetAsyncKeyState('7') && !keyDown)
-		{
-			keyDown = true;
-			BOOL enable;
-			mPDevice->GetLightEnable(2, &enable);
-			mPDevice->LightEnable(2, !enable);
-		}
-
-		if (!GetAsyncKeyState('3') && !GetAsyncKeyState('2') && !GetAsyncKeyState('1') && 
-			!GetAsyncKeyState('0') && !GetAsyncKeyState('9') && !GetAsyncKeyState('8') && !GetAsyncKeyState('7')) {
-			keyDown = false;
 		}
 
 		for (int i = 0; i < mGameObj->size(); i++) {

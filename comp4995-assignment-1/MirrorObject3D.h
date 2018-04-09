@@ -1,6 +1,7 @@
 #pragma once
 
 #include "MeshGameObject3D.h"
+#include "CustomTypes.h"
 #include <vector>
 
 class MirrorObject3D : public GameObject
@@ -8,7 +9,7 @@ class MirrorObject3D : public GameObject
 
 public:
 
-	MirrorObject3D(MeshObject* pMeshObj);
+	MirrorObject3D(CUSTOMVERTEX vertices[], int numVertice);
 
 	virtual ~MirrorObject3D();
 
@@ -23,7 +24,9 @@ public:
 
 private:
 	// pointer to object holding mesh data
-	MeshObject * mPMeshObj;
+	CUSTOMVERTEX* mVertices;
+
+	int mNumVertice;
 
 	// list of game objects to be reflected
 	std::vector<MeshGameObject3D*>* mReflectionObjects;
